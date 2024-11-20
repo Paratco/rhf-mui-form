@@ -23,11 +23,7 @@ pnpm add @paratco/rhf-mui-form
 
 ## Features
 
-  - `inputDir` is optional, default is `ltr`.
-  - `isReadOnly` prop to make the input read-only.
-  - The component can either receive the RHF control as a prop or use `useFormContext` to automatically access the form control.
-
-### `RHFTextField`
+  ### `RHFTextField`
 
 `RHFTextField` is a wrapper around MIUI's `TextField` component that integrates with React Hook Form.
 
@@ -37,18 +33,23 @@ pnpm add @paratco/rhf-mui-form
    label="First Name"
    control={control} // Optional, if useFormContext is not used
    inputDir="ltr"
-   isReadOnly={false}
+   isReadOnly={true}
  />
   ```
+  | Prop         | Type              | Default    | Definition                                                                                              |
+  | ------------ | ---------         | -------    | ------------------------------------------------------------------------------------------------------- |
+  | name\*       | `Path<T>`         |            | The name of the input                                                                                   |
+  | control      | `Control`         |            | The control object from React Hook Form, optional if useFormContext is used                             |
+  | inputDir     | (`ltr` or `rtl`)  |            | If we want the direction of the input to be different from the overall direction of the page. This is mostly used by Persian/Arabic/... when they want to input numbers or English content in an input field |
+  | isReadOnly   | boolean           |   False    | The `isReadOnly` prop to make the input read-only                                                       |
+  | props        | TextFieldProps    |            | Additional props passed to the underlying MUI `TextField`                                               |
 
-  - Default value should be an empty string.
-
+  --------------------------------
 
   ### `RHFTextMasked`
 
   `RHFTextMasked` is a React Hook Form integrated `TextField` component that supports input masking via `react-imask`.
 
- 
   ```tsx
   <RHFTextMasked
     name="phoneNumber"
@@ -60,15 +61,21 @@ pnpm add @paratco/rhf-mui-form
   />
   ```
 
-   - Default value should be an empty string. 
- 
+  | Prop           | Type              | Default    | Definition                                                                                              |
+  | ------------   | ---------         | -------    | ------------------------------------------------------------------------------------------------------- |
+  | name\*         | `Path<T>`         |            | The name of the input                                                                                   |
+  | maskOptions\*  | ReactMaskOpts     |            | The options for input masking, as defined by `react-imask                                              | 
+  | control        | `Control`         |            | The control object from React Hook Form, optional if useFormContext is used                             |
+  | inputDir       | (`ltr` or `rtl`)  |            | If we want the direction of the input to be different from the overall direction of the page. This is mostly used by Persian/Arabic/... when they want to input numbers or English content in an input field |
+  | isReadOnly     | boolean           |   False    | The `isReadOnly` prop to make the input read-only                                                       |
+  | props          | TextFieldProps    |            | Additional props passed to the underlying MUI `TextField`                                               |
+  --------------------------------
+
   ### `RHFAutoComplete`
 
   `RHFAutoComplete` is a reusable autocomplete component integrated with React Hook Form.
 
   - Supports single or multiple option selections based on the `Autocomplete` component.
-  - Handles various input props such as `inputDir`, dropdown height, and form validation.
-  - Uses `useMemo` to optimize the rendering of option values in the dropdown.
 
   ```tsx
   <RHFAutoComplete
@@ -79,6 +86,30 @@ pnpm add @paratco/rhf-mui-form
     multiple // Optional, if you want
   />
   ```
+  Types:
+
+  ```ts
+  export interface SelectOptionBase {
+    label: string;
+    value: unknown;
+    disabled?: boolean;
+  }
+
+  interface OptionItem extends SelectOptionBase {
+  value: string;
+  }
+
+  ```
+
+  | Prop              | Type                                                              | Default | Definition                                                                    |
+  | ----------------- | ----------------------------------------------------------------- | ------- | ----------------------------------------------------------------------------- |
+  | name\*            | `Path<T>`                                                         |         | The name of the input                                                         |
+  | label\*           | string                                                            |         | The name of the input                                                         |
+  | options\*         | OptionItem[ ]                                                     |         | The options to be displayed in the autocomplete dropdown.                     |
+  | control           | `Control`                                                         |         | The control object from React Hook Form, optional if useFormContext is used   |
+  | renderInputProps  | TextFieldProps                                                    |         | Additional props passed to the underlying MUI `TextField`                     |
+  | props             | `AutocompleteProps<Value, Multiple, DisableClearable, FreeSolo>`  |         | Additional props passed to the `Autocomplete` component.                      |
+  --------------------------------
 
   ### `RHFCheckBox`
 
@@ -91,8 +122,15 @@ pnpm add @paratco/rhf-mui-form
      control={control} // Optional, if useFormContext is not used
    />
    ```
+  | Prop         | Type              | Default    | Definition                                                                            |
+  | ------------ | ---------         | -------    | --------------------------------------------------------------------------------------|
+  | name\*       | `Path<T>`         |            | The name of the input                                                                 |
+  | label\*      | string            |            | The label for the checkbox                                                            |
+  | control      | `Control`         |            | The control object from React Hook Form, optional if useFormContext is used           |
+  | props        | CheckboxProps     |            | Additional props passed to the underlying MUI `Checkbox`                              |
+  --------------------------------
 
-   ### `RHFRadioGroup`
+  ### `RHFRadioGroup`
 
    `RHFRadioGroup` is a wrapper around MIUI's `RadioGroup` component that integrates with React Hook Form.
 
@@ -110,8 +148,17 @@ pnpm add @paratco/rhf-mui-form
       control={control} // Optional, if useFormContext is not used
     />
   ```
+  | Prop         | Type                              | Default    | Definition                                                                                              |
+  | ------------ | ---------                         | -------    | ------------------------------------------------------------------------------------------------------- |
+  | name\*       | `Path<T>`                         |            | The name of the input                                                                                   |
+  | options\*    | OptionItem[ ]                     |            | An array of options for the radio buttons, each having a label and value.                               |
+  | formLabel    | `ReactElement<typeof FormLabel>`  |            | A FormLabel component to be displayed above the radio buttons                                           |
+  | control      | `Control`                         |            | The control object from React Hook Form, optional if useFormContext is used                             |
+  | props        | RadioGroupProps                   |            | Additional props passed to the underlying MUI `RadioGroup`                                              |
 
-   ### `RHFSelect`
+--------------------------------
+
+  ### `RHFSelect`
 
    `RHFSelect` is a wrapper around MIUI's `Select` component that integrates with React Hook Form.
 
@@ -131,6 +178,33 @@ pnpm add @paratco/rhf-mui-form
     />
   ```
 
+  Types:
+
+  ```ts
+    export interface SelectOptionBase {
+      label: string;
+      value: unknown;
+      disabled?: boolean;
+    }
+
+    interface OptionItem extends SelectOptionBase {
+      /** The value of the option, which is used as the key */
+      value: string; // Different between RHFSelect and RHFSelectPro
+    }
+  ```
+
+  | Prop                | Type              | Default    | Definition                                                                                                |
+  | ------------        | ---------         | -------    | -------------------------------------------------------------------------------------------------------   |
+  | name\*              | `Path<T>`         |            | The name of the input                                                                                     |
+  | options\*           | OptionItem[ ]     |            | An array of option items to be displayed in the select dropdown                                           |
+  | inputDir            | (`ltr` or `rtl`)  |            | If we want the direction of the input to be different from the overall direction of the page. This is mostly used by Persian/Arabic/... when they want to input numbers or English content in an input field |
+  | control             | `Control`         |            | The control object from React Hook Form, optional if useFormContext is used                               |
+  | maxHeight           | number            |            | The maximum height of the select input                                                                    | 
+  | dropDownMaxHeight   | number            |            | The maximum height of the dropdown menu                                                                   |
+  | props               | SelectProps       |            | Additional props passed to the underlying MUI `Select`                                                    |
+
+--------------------------------
+
   ### `RHFSelectPro`
 
   `RHFSelectPro` is a wrapper around MIUI's `Select` component that integrates with React Hook Form.
@@ -147,7 +221,37 @@ pnpm add @paratco/rhf-mui-form
       multiple // if you want
     />
   ```
+ Types:
+
+  ```ts
+    export type NotUndefined = object | string | number | boolean | null | NotUndefined[];  
+
+    export interface SelectOptionBase {
+      label: string;
+      value: unknown;
+      disabled?: boolean;
+    }
+
+    interface OptionItem extends SelectOptionBase {
+      /** The value of the option, which can be any type */
+      value: NotUndefined; // Different between RHFSelect and RHFSelectPro
+    }
+  ```
+
+
+  | Prop                | Type              | Default    | Definition                                                                                                |
+  | ------------        | ---------         | -------    | -------------------------------------------------------------------------------------------------------   |
+  | name\*              | `Path<T>`         |            | The name of the input                                                                                     |
+  | options\*           | OptionItem[ ]     |            | An array of option items to be displayed in the select dropdown                                           |
+  | inputDir            | (`ltr` or `rtl`)  |            | If we want the direction of the input to be different from the overall direction of the page. This is mostly used by Persian/Arabic/... when they want to input numbers or English content in an input field |
+  | control             | `Control`         |            | The control object from React Hook Form, optional if useFormContext is used                               |
+  | maxHeight           | number            |            | The maximum height of the select input                                                                    | 
+  | dropDownMaxHeight   | number            |            | The maximum height of the dropdown menu                                                                   |
+  | props               | SelectProps       |            | Additional props passed to the underlying MUI `Select`                                                    |
+
     
+--------------------------------
+
   ### `RHFSwitch`
 
   `RHFSwitch` is a wrapper around MIUI's `Switch` component that integrates with React Hook Form.
@@ -159,7 +263,14 @@ pnpm add @paratco/rhf-mui-form
       control={control} // Optional, if useFormContext is not used
     />
   ```
-   - Default value should be true or false. 
+  | Prop         | Type              | Default    | Definition                                                                                              |
+  | ------------ | ---------         | -------    | ------------------------------------------------------------------------------------------------------- |
+  | name\*       | `Path<T>`         |            | The name of the input                                                                                   |
+  | label\*      | string            |            | The label that will be displayed alongside the switch                                                   |
+  | control      | `Control`         |            | The control object from React Hook Form, optional if useFormContext is used                             |
+  | props        | SwitchProps     |            | Additional props to pass down to the `Switch` component                                                   |
+
+--------------------------------
 
   ### `RHFDatePickerJalali`
 
@@ -174,6 +285,15 @@ pnpm add @paratco/rhf-mui-form
     />
   ```
 
+  | Prop         | Type                      | Default    | Definition                                                                                              |
+  | ------------ | ---------                 | -------    | ------------------------------------------------------------------------------------------------------- |
+  | name\*       | `Path<T>`                 |            | The name of the input                                                                                   |
+  | control      | `Control`                 |            | The control object from React Hook Form, optional if useFormContext is used                             |
+  | isReadOnly   | boolean                   |   False    | The `isReadOnly` prop to make the input read-only                                                       |
+  | props        | `DatePickerProps<Date>`   |            | Additional props passed to the underlying MUI `DatePicker`                                              |
+
+--------------------------------
+
   ### `RHFDateTimePickerJalali`
 
   `RHFDateTimePickerJalali` is a date and time picker component integrated with React Hook Form.
@@ -186,10 +306,16 @@ pnpm add @paratco/rhf-mui-form
       isReadOnly={false}
     />
   ```
+  | Prop         | Type                          | Default    | Definition                                                                                              |
+  | ------------ | ---------                     | -------    | ------------------------------------------------------------------------------------------------------- |
+  | name\*       | `Path<T>`                     |            | The name of the input                                                                                   |
+  | control      | `Control`                     |            | The control object from React Hook Form, optional if useFormContext is used                             |
+  | isReadOnly   | boolean                       |   False    | The `isReadOnly` prop to make the input read-only                                                       |
+  | props        | `DateTimePickerProps<Date>`   |            | Additional props passed to the underlying MUI `DateTimePicker`                                          |
+
 
   - It allows for customization of the time view using the `renderTimeViewClock`.
   - It uses `AdapterDateFnsJalali` for Jalali (Persian) calendar support.
-
 
 ## Example
 
