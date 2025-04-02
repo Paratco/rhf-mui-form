@@ -631,14 +631,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@hookform/resolvers@npm:^4.1.2":
-  version: 4.1.2
-  resolution: "@hookform/resolvers@npm:4.1.2"
+"@hookform/resolvers@npm:^5.0.0":
+  version: 5.0.0
+  resolution: "@hookform/resolvers@npm:5.0.0"
   dependencies:
     "@standard-schema/utils": "npm:^0.3.0"
   peerDependencies:
-    react-hook-form: ^7.0.0
-  checksum: 10c0/3e74dfac02c9b40d1840f3ede57031a461195eed513d299946d04afc823d92565e74af79aa1c61508d250068105f0ae14409cec35f03eba166bfd1316f1cf3fd
+    react-hook-form: 7.55.0
+  checksum: 10c0/bf9a6dc0216ac7096a1fced8b314567054edecea139259e114d65f2bbf7e5ec54a3bcb3b038f72615f5ea021e9057a6e0a3164b77c66cf2e0d1d01d2e3435c30
   languageName: node
   linkType: hard
 
@@ -1119,7 +1119,7 @@ __metadata:
   dependencies:
     "@emotion/react": "npm:^11.14.0"
     "@emotion/styled": "npm:^11.14.0"
-    "@hookform/resolvers": "npm:^4.1.2"
+    "@hookform/resolvers": "npm:^5.0.0"
     "@mui/material": "npm:^6.4.6"
     "@mui/x-date-pickers": "npm:^7.27.1"
     "@paratco/eslint-config": "npm:^1.0.14"

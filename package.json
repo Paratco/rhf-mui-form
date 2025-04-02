@@ -58,7 +58,7 @@
   "devDependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@hookform/resolvers": "^4.1.2",
+    "@hookform/resolvers": "^5.0.0",
     "@mui/material": "^6.4.6",
     "@mui/x-date-pickers": "^7.27.1",
     "@paratco/eslint-config": "^1.0.14",
