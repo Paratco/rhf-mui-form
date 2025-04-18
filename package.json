@@ -60,7 +60,7 @@
     "@emotion/styled": "^11.14.0",
     "@hookform/resolvers": "^5.0.1",
     "@mui/material": "^7.0.1",
-    "@mui/x-date-pickers": "^7.28.3",
+    "@mui/x-date-pickers": "^8.0.0",
     "@paratco/eslint-config": "^2.1.1",
     "@paratco/prettier-config": "^0.1.1",
     "@types/node": "^22.14.0",
