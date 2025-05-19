@@ -111,7 +111,7 @@ export function RHFSelect<T extends FieldValues>({
 
     for (const o of options) {
       if (o.value in result) {
-        console.warn("Duplicate option value for select component: ", o.value);
+        console.warn("Duplicate option value for select component:", o.value);
       }
 
       result[o.value] = o;
@@ -198,10 +198,12 @@ export function RHFSelect<T extends FieldValues>({
             >
               {categorized && groupedOptions !== null
                 ? Object.entries(groupedOptions.categories)
+                    // eslint-disable-next-line unicorn/no-array-reduce
                     .reduce((acc: ReactElement[], [groupValue, groupItems]) => {
                       acc.push(
                         <ListSubheader key={groupValue}>{innerOptions[groupItems[0]].category?.label}</ListSubheader>
                       );
+                      // eslint-disable-next-line unicorn/prefer-single-call
                       acc.push(
                         ...groupItems.map((gItem) => (
                           <MenuItem value={gItem} key={gItem} disabled={innerOptions[gItem].disabled} dir={inputDir}>
