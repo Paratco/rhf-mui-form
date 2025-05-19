@@ -103,7 +103,7 @@ export function RHFSelectPro<T extends FieldValues>({
       const h = sha1(o.value);
 
       if (h in result) {
-        console.warn("Duplicate option value for select component: ", o.value);
+        console.warn("Duplicate option value for select component:", o.value);
       }
 
       result[h] = o;
