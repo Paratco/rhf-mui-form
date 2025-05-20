@@ -1,11 +1,11 @@
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
-import type { DateTimePickerProps } from "@mui/x-date-pickers";
-import { DateTimePicker, LocalizationProvider, renderTimeViewClock } from "@mui/x-date-pickers";
+import type { DateFieldProps } from "@mui/x-date-pickers";
+import { DateField, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 import type { ReactElement } from "react";
 
-type Props<T extends FieldValues> = Omit<DateTimePickerProps, "name"> & {
+type Props<T extends FieldValues> = Omit<DateFieldProps, "name"> & {
   /** The name of the field in the form state */
   readonly name: Path<T>;
   /** The control object from React Hook Form, optional if useFormContext is used */
@@ -15,30 +15,29 @@ type Props<T extends FieldValues> = Omit<DateTimePickerProps, "name"> & {
 };
 
 /**
- * `RHFDateTimePickerJalali` is a date and time picker component integrated with React Hook Form
- * using the Jalali calendar system. It wraps MIUI's `DateTimePicker` component to provide a unified
- * experience for working with date and time selection.
+ * `RHFDateFieldJalali` is a date field component integrated with React Hook Form
+ * using the Jalali calendar system. It wraps MIUI's `DateField` component and provides
+ * seamless integration with React Hook Form.
  *
- * - It uses `AdapterDateFnsJalali` for Jalali (Persian) calendar support.
- * - The component supports both controlled and uncontrolled forms with React Hook Form.
- * - It allows for customization of the time view using the `renderTimeViewClock`.
+ * - The component allows you to select a date with the keyboard format using the `AdapterDateFnsJalali` adapter.
+ * - It works with both controlled and uncontrolled forms using React Hook Form.
  * - You can pass a `control` object or use `useFormContext` to access the form control automatically.
- * - It supports a `readOnly` mode and handles validation errors automatically.
+ * - It supports a `readOnly` mode and displays validation errors automatically.
  *
  * @template T - A generic type for the form's field values, extending `FieldValues`.
  *
  * @param {Path<T>} name - The name of the field in the form state.
  * @param {Control<T>} [control] - The React Hook Form control object. If not provided, the form context will be used.
  * @param {boolean} [isReadOnly] - Specifies whether the input is read-only.
- * @param {DateTimePickerProps} props - Additional props passed to the underlying MUI `DateTimePicker`.
+ * @param {DateFieldProps} props - Additional props passed to the underlying MUI `DateField`.
  *
- * @returns {ReactElement} A controlled `DateTimePicker` component with Jalali calendar integration and React Hook Form support.
+ * @returns {ReactElement} A controlled `DateField` component with Jalali calendar integration and React Hook Form support.
  *
  * @example
  * ```tsx
- * <RHFDateTimePickerJalali
- *   name="appointmentTime"
- *   label="Appointment Time"
+ * <RHFDateFieldJalali
+ *   name="birthDate"
+ *   label="Birth Date"
  *   control={control} // Optional if useFormContext is used
  *   isReadOnly={false}
  * />
@@ -46,14 +45,14 @@ type Props<T extends FieldValues> = Omit<DateTimePickerProps, "name"> & {
  *
  * @example
  * ```tsx
- * <RHFDateTimePickerJalali
- *   name="eventDate"
- *   label="Event Date"
+ * <RHFDateFieldJalali
+ *   name="startDate"
+ *   label="Start Date"
  *   isReadOnly
  * />
  * ```
  */
-export function RHFDateTimePickerJalali<T extends FieldValues>({
+export function RHFDateFieldJalali<T extends FieldValues>({
   name,
   control,
   isReadOnly,
@@ -67,22 +66,12 @@ export function RHFDateTimePickerJalali<T extends FieldValues>({
       control={control ?? formContext.control}
       render={({ field: { value, ...field }, fieldState: { error } }) => (
         <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
-          <DateTimePicker
+          <DateField
             {...props}
             // eslint-disable-next-line @typescript-eslint/no-misused-spread
             sx={{ width: "100%", ...props.sx }}
-            viewRenderers={{
-              hours: renderTimeViewClock,
-              minutes: renderTimeViewClock,
-              seconds: renderTimeViewClock
-            }}
             slotProps={{
               ...props.slotProps,
-              field: {
-                // eslint-disable-next-line @typescript-eslint/no-misused-spread
-                ...props.slotProps?.field,
-                readOnly: isReadOnly
-              },
               textField: {
                 // eslint-disable-next-line @typescript-eslint/no-misused-spread
                 ...props.slotProps?.textField,
