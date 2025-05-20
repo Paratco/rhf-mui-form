@@ -1,11 +1,11 @@
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 import type { DateTimeFieldProps } from "@mui/x-date-pickers";
-import {  DateTimeField, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFnsJalali } from '@mui/x-date-pickers/AdapterDateFnsJalali';
+import { DateTimeField, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 import type { ReactElement } from "react";
 
-type Props<T extends FieldValues> = Omit<DateTimeFieldProps,"name"> & {
+type Props<T extends FieldValues> = Omit<DateTimeFieldProps, "name"> & {
   /** The name of the field in the form state */
   readonly name: Path<T>;
   /** The control object from React Hook Form, optional if useFormContext is used */
@@ -66,32 +66,32 @@ export function RHFDateTimeFieldJalali<T extends FieldValues>({
       control={control ?? formContext.control}
       render={({ field: { value, ...field }, fieldState: { error } }) => (
         <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
-            <DateTimeField
-              {...props}
-              // eslint-disable-next-line @typescript-eslint/no-misused-spread
-               sx={{ width: "100%", ...props.sx }}
-               slotProps={{
-                ...props.slotProps,
-                textField: {
-                  // eslint-disable-next-line @typescript-eslint/no-misused-spread
-                  ...props.slotProps?.textField,
-                  error: error !== undefined,
-                  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                  helperText:
-                    props.disabled !== true && error?.message !== undefined && error.message.length > 0
-                      ? error.message
-                      : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          <DateTimeField
+            {...props}
+            // eslint-disable-next-line @typescript-eslint/no-misused-spread
+            sx={{ width: "100%", ...props.sx }}
+            slotProps={{
+              ...props.slotProps,
+              textField: {
+                // eslint-disable-next-line @typescript-eslint/no-misused-spread
+                ...props.slotProps?.textField,
+                error: error !== undefined,
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+                helperText:
+                  props.disabled !== true && error?.message !== undefined && error.message.length > 0
+                    ? error.message
+                    : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                      // @ts-expect-error
+                      props.slotProps?.textField?.helperText !== undefined
+                      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-expect-error
-                        props.slotProps?.textField?.helperText !== undefined
-                        ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                          // @ts-expect-error
-                          props.slotProps.textField.helperText
-                        : " "
-                }
-                }}
-              value={value ?? null}
-              {...field}
-            />
+                        props.slotProps.textField.helperText
+                      : " "
+              }
+            }}
+            value={value ?? null}
+            {...field}
+          />
         </LocalizationProvider>
       )}
     />

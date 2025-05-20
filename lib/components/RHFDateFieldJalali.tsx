@@ -2,10 +2,10 @@ import type { Control, FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 import type { DateFieldProps } from "@mui/x-date-pickers";
 import { DateField, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFnsJalali } from '@mui/x-date-pickers/AdapterDateFnsJalali';
+import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 import type { ReactElement } from "react";
 
-type Props<T extends FieldValues> = Omit<DateFieldProps,"name"> & {
+type Props<T extends FieldValues> = Omit<DateFieldProps, "name"> & {
   /** The name of the field in the form state */
   readonly name: Path<T>;
   /** The control object from React Hook Form, optional if useFormContext is used */
@@ -66,11 +66,11 @@ export function RHFDateFieldJalali<T extends FieldValues>({
       control={control ?? formContext.control}
       render={({ field: { value, ...field }, fieldState: { error } }) => (
         <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
-            <DateField
-              {...props}
-              // eslint-disable-next-line @typescript-eslint/no-misused-spread
-               sx={{ width: "100%", ...props.sx }}
-               slotProps={{
+          <DateField
+            {...props}
+            // eslint-disable-next-line @typescript-eslint/no-misused-spread
+            sx={{ width: "100%", ...props.sx }}
+            slotProps={{
               ...props.slotProps,
               textField: {
                 // eslint-disable-next-line @typescript-eslint/no-misused-spread
@@ -89,9 +89,9 @@ export function RHFDateFieldJalali<T extends FieldValues>({
                       : " "
               }
             }}
-                 value={value ?? null}
-                {...field}
-             />
+            value={value ?? null}
+            {...field}
+          />
         </LocalizationProvider>
       )}
     />

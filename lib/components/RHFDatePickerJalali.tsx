@@ -2,10 +2,10 @@ import type { Control, FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 import type { DatePickerProps } from "@mui/x-date-pickers";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
-import { AdapterDateFnsJalali } from '@mui/x-date-pickers/AdapterDateFnsJalali';
+import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 import type { ReactElement } from "react";
 
-type Props<T extends FieldValues> = Omit<DatePickerProps,"name"> & {
+type Props<T extends FieldValues> = Omit<DatePickerProps, "name"> & {
   /** The name of the field in the form state */
   readonly name: Path<T>;
   /** The control object from React Hook Form, optional if useFormContext is used */
