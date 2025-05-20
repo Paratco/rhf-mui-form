@@ -2,10 +2,10 @@ import type { Control, FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 import type { DateTimePickerProps } from "@mui/x-date-pickers";
 import { DateTimePicker, LocalizationProvider, renderTimeViewClock } from "@mui/x-date-pickers";
-import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalaliV3";
+import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 import type { ReactElement } from "react";
 
-type Props<T extends FieldValues> = Omit<DateTimePickerProps<Date>, "name"> & {
+type Props<T extends FieldValues> = Omit<DateTimePickerProps, "name"> & {
   /** The name of the field in the form state */
   readonly name: Path<T>;
   /** The control object from React Hook Form, optional if useFormContext is used */
@@ -30,7 +30,7 @@ type Props<T extends FieldValues> = Omit<DateTimePickerProps<Date>, "name"> & {
  * @param {Path<T>} name - The name of the field in the form state.
  * @param {Control<T>} [control] - The React Hook Form control object. If not provided, the form context will be used.
  * @param {boolean} [isReadOnly] - Specifies whether the input is read-only.
- * @param {DateTimePickerProps<Date>} props - Additional props passed to the underlying MUI `DateTimePicker`.
+ * @param {DateTimePickerProps} props - Additional props passed to the underlying MUI `DateTimePicker`.
  *
  * @returns {ReactElement} A controlled `DateTimePicker` component with Jalali calendar integration and React Hook Form support.
  *
