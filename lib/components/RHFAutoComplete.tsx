@@ -141,6 +141,15 @@ export function RHFAutoComplete<
             <TextField
               {...renderInputProps}
               {...params}
+              // Temporary workaround: MUI is deprecating InputProps, and we should use slotProps instead.
+              // Unfortunately, the library itself still uses InputProps internally.
+              // So until that's fixed, we have to handle it this way.
+              // eslint-disable-next-line @typescript-eslint/no-deprecated
+              InputProps={{
+                ...params.InputProps,
+                // eslint-disable-next-line @typescript-eslint/no-deprecated
+                ...renderInputProps?.InputProps
+              }}
               label={label}
               inputRef={ref}
               error={props.disabled !== true && error !== undefined}
