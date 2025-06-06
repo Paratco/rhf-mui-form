@@ -76,7 +76,9 @@ export function RHFSwitch<T extends FieldValues>({ name, label, control, ...prop
             }
             label={label}
           />
-          <FormHelperText>{props.disabled !== true && error !== undefined ? error.message : " "}</FormHelperText>
+          <FormHelperText>
+            {props.disabled !== true && error?.message !== undefined && error.message.length > 0 ? error.message : " "}
+          </FormHelperText>
         </FormControl>
       )}
     />

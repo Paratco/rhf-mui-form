@@ -190,7 +190,11 @@ export function RHFSelectPro<T extends FieldValues>({
                     </MenuItem>
                   ))}
             </Select>
-            <FormHelperText>{error?.message ?? " "}</FormHelperText>
+            <FormHelperText>
+              {props.disabled !== true && error?.message !== undefined && error.message.length > 0
+                ? error.message
+                : " "}
+            </FormHelperText>
           </FormControl>
         );
       }}
