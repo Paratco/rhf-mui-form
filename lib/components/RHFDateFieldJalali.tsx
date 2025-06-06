@@ -75,7 +75,7 @@ export function RHFDateFieldJalali<T extends FieldValues>({
               textField: {
                 // eslint-disable-next-line @typescript-eslint/no-misused-spread
                 ...props.slotProps?.textField,
-                error: error !== undefined,
+                error: props.disabled !== true && error !== undefined,
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 helperText:
                   props.disabled !== true && error?.message !== undefined && error.message.length > 0
