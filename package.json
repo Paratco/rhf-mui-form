@@ -63,7 +63,7 @@
     "@mui/x-date-pickers": "^8.5.1",
     "@paratco/eslint-config": "^2.2.5",
     "@paratco/prettier-config": "^0.1.1",
-    "@types/node": "^22.15.30",
+    "@types/node": "^24.0.0",
     "@types/object-hash": "^3.0.6",
     "@types/react": "^19.1.6",
     "@types/react-dom": "^19.1.6",
