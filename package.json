@@ -61,7 +61,7 @@
     "@hookform/resolvers": "^5.1.1",
     "@mui/material": "^7.2.0",
     "@mui/x-date-pickers": "^8.6.0",
-    "@paratco/eslint-config": "^2.3.0",
+    "@paratco/eslint-config": "^3.1.0",
     "@paratco/prettier-config": "^0.2.0",
     "@types/node": "^24.0.7",
     "@types/object-hash": "^3.0.6",
