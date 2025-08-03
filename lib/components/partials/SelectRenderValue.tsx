@@ -1,7 +1,7 @@
 import type { ReactElement } from "react";
 import { memo } from "react";
-import type { SelectOptionBase } from "../../types";
 import { Chip, Stack } from "@mui/material";
+import type { SelectOptionBase } from "../../types";
 
 interface Props {
   readonly options: Record<string, SelectOptionBase>;

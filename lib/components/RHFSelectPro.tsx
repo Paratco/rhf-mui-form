@@ -1,14 +1,12 @@
 import type { Control, FieldValues, Path } from "react-hook-form";
-import { useWatch } from "react-hook-form";
-import { Controller, useFormContext } from "react-hook-form";
+import { useWatch, Controller, useFormContext } from "react-hook-form";
 import type { SelectProps } from "@mui/material";
-import { Checkbox, MenuItem } from "@mui/material";
-import { FormControl, FormHelperText, InputLabel, Select } from "@mui/material";
+import { Checkbox, MenuItem, FormControl, FormHelperText, InputLabel, Select } from "@mui/material";
 import type { ReactElement } from "react";
 import { useMemo } from "react";
 import { sha1 } from "object-hash";
-import SelectRenderValue from "./partials/SelectRenderValue.tsx";
-import type { NotUndefined, SelectOptionBase } from "../types.ts";
+import type { NotUndefined, SelectOptionBase } from "../types";
+import SelectRenderValue from "./partials/SelectRenderValue";
 
 /**
  * Interface defining the structure of an option item in the select field.

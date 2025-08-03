@@ -1,13 +1,11 @@
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 import type { SelectProps } from "@mui/material";
-import { ListSubheader } from "@mui/material";
-import { Checkbox, MenuItem } from "@mui/material";
-import { FormControl, FormHelperText, InputLabel, Select } from "@mui/material";
+import { ListSubheader, Checkbox, MenuItem, FormControl, FormHelperText, InputLabel, Select } from "@mui/material";
 import type { ReactElement } from "react";
 import { useMemo } from "react";
-import SelectRenderValue from "./partials/SelectRenderValue.tsx";
-import type { SelectOptionBase } from "../types.ts";
+import type { SelectOptionBase } from "../types";
+import SelectRenderValue from "./partials/SelectRenderValue";
 
 interface Category {
   label: string;

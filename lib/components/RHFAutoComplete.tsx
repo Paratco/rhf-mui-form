@@ -4,7 +4,7 @@ import type { AutocompleteProps, TextFieldProps } from "@mui/material";
 import { Autocomplete, TextField } from "@mui/material";
 import type { ReactElement, ReactNode } from "react";
 import { useMemo } from "react";
-import type { SelectOptionBase } from "../types.ts";
+import type { SelectOptionBase } from "../types";
 
 interface OptionItem extends SelectOptionBase {
   value: string;
