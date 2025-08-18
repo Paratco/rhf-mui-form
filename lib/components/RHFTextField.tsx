@@ -5,12 +5,16 @@ import { TextField } from "@mui/material";
 import type { ReactElement } from "react";
 
 type Props<T extends FieldValues> = Omit<TextFieldProps, "name"> & {
+
   /** The name of the field in the form state */
   readonly name: Path<T>;
+
   /** The control object from React Hook Form, optional if useFormContext is used */
   readonly control?: Control<T>;
+
   /** Direction of the text input (left-to-right or right-to-left) */
   readonly inputDir?: "ltr" | "rtl";
+
   /** Whether the field is read-only */
   readonly isReadOnly?: boolean;
 };
@@ -72,14 +76,14 @@ export function RHFTextField<T extends FieldValues>({
           fullWidth={true}
           {...props}
           error={props.disabled !== true && error !== undefined}
+          value={value ?? ""}
           helperText={
             props.disabled !== true && error?.message !== undefined && error.message.length > 0
               ? error.message
-              : props.helperText !== undefined
+              : (props.helperText !== undefined
                 ? props.helperText
-                : " "
+                : " ")
           }
-          value={value ?? ""}
           {...field}
           slotProps={{
             ...props.slotProps,

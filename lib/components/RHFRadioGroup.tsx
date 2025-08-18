@@ -11,12 +11,16 @@ interface OptionItem {
 }
 
 type Props<T extends FieldValues> = Omit<RadioGroupProps, "name"> & {
+
   /** The name of the field in the form state */
   readonly name: Path<T>;
+
   /** An array of options for the radio buttons, each having a label and value */
   readonly options: OptionItem[];
+
   /** A FormLabel component to be displayed above the radio buttons */
   readonly formLabel?: ReactElement<typeof FormLabel>;
+
   /** The control object from React Hook Form, optional if useFormContext is used */
   readonly control?: Control<T>;
 };

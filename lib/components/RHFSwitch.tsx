@@ -5,10 +5,13 @@ import { Switch, FormControl, FormControlLabel, FormHelperText } from "@mui/mate
 import type { ReactElement, ReactNode } from "react";
 
 type Props<T extends FieldValues> = Omit<SwitchProps, "name"> & {
+
   /** The name of the field in the form state */
   readonly name: Path<T>;
+
   /** The label that will appear next to the switch */
   readonly label: ReactNode;
+
   /** The control object from React Hook Form, optional if useFormContext is used */
   readonly control?: Control<T>;
 };
@@ -64,7 +67,8 @@ export function RHFSwitch<T extends FieldValues>({ name, label, control, ...prop
       render={({ field: { value, onChange, ...field }, fieldState: { error } }) => (
         <FormControl error={props.disabled !== true && error !== undefined}>
           <FormControlLabel
-            control={
+            label={label}
+            control={(
               <Switch
                 {...props}
                 {...field}
@@ -73,8 +77,7 @@ export function RHFSwitch<T extends FieldValues>({ name, label, control, ...prop
                   onChange(e.target.checked);
                 }}
               />
-            }
-            label={label}
+            )}
           />
           <FormHelperText>
             {props.disabled !== true && error?.message !== undefined && error.message.length > 0 ? error.message : " "}

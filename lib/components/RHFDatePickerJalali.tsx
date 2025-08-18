@@ -6,10 +6,13 @@ import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 import type { ReactElement } from "react";
 
 type Props<T extends FieldValues> = Omit<DatePickerProps, "name"> & {
+
   /** The name of the field in the form state */
   readonly name: Path<T>;
+
   /** The control object from React Hook Form, optional if useFormContext is used */
   readonly control?: Control<T>;
+
   /** Whether the field is read-only */
   readonly isReadOnly?: boolean;
 };
@@ -70,6 +73,7 @@ export function RHFDatePickerJalali<T extends FieldValues>({
             {...props}
             // eslint-disable-next-line @typescript-eslint/no-misused-spread
             sx={{ width: "100%", ...props.sx }}
+            value={value ?? null}
             slotProps={{
               ...props.slotProps,
               field: {
@@ -85,16 +89,17 @@ export function RHFDatePickerJalali<T extends FieldValues>({
                 helperText:
                   props.disabled !== true && error?.message !== undefined && error.message.length > 0
                     ? error.message
-                    : // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    : (
+                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                       // @ts-expect-error
                       props.slotProps?.textField?.helperText !== undefined
-                      ? // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                         // @ts-expect-error
-                        props.slotProps.textField.helperText
-                      : " "
+                        ? props.slotProps.textField.helperText
+                        : " "
+                    )
               }
             }}
-            value={value ?? null}
             {...field}
           />
         </LocalizationProvider>
