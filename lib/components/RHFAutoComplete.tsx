@@ -6,6 +6,10 @@ import type { ReactElement, ReactNode } from "react";
 import { useMemo } from "react";
 import type { SelectOptionBase } from "../types";
 
+// Temporary workaround: MUI is deprecating InputProps, and we should use slotProps instead.
+// Unfortunately, the library itself still uses InputProps internally.
+// So until that's fixed, we have to handle it this way.
+
 interface OptionItem extends SelectOptionBase {
   value: string;
 }
@@ -17,16 +21,22 @@ type Props<
   DisableClearable extends boolean,
   FreeSolo extends boolean
 > = Omit<AutocompleteProps<Value, Multiple, DisableClearable, FreeSolo>, "name" | "renderInput" | "multiple"> & {
+
   /** The name of the field in the form state */
   readonly name: Path<T>;
+
   /** The label for the input field, which will be displayed as a floating label. */
   readonly label: ReactNode;
+
   /** The options to be displayed in the autocomplete dropdown. */
   readonly options: OptionItem[];
+
   /** The control object from React Hook Form, optional if useFormContext is used */
   readonly control?: Control<T>;
+
   /** Optional: Props to be passed to the underlying `TextField` component used in the `renderInput` function. */
   readonly renderInputProps?: Omit<TextFieldProps, "name">;
+
   /** Optional: To support single or multiple selections */
   readonly multiple?: boolean;
 };
@@ -114,26 +124,19 @@ export function RHFAutoComplete<
           // @ts-expect-error
           multiple={multiple}
           {...props}
+          getOptionLabel={(option) => (option as OptionItem).label}
+          options={options}
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-expect-error
           value={
             value !== undefined && value !== null
-              ? multiple === true
+              ? (multiple === true
                 ? (value as string[]).map((v) => innerOptions[v])
-                : innerOptions[value]
-              : multiple === true
+                : innerOptions[value])
+              : (multiple === true
                 ? []
-                : null
+                : null)
           }
-          onChange={(_, newValue) => {
-            if (multiple === true) {
-              onChange((newValue as OptionItem[]).map((n) => n.value));
-            } else {
-              onChange(newValue !== null ? (newValue as OptionItem).value : null);
-            }
-          }}
-          getOptionLabel={(option) => (option as OptionItem).label}
-          options={options}
           isOptionEqualToValue={(option, val) => {
             return option.value === val.value;
           }}
@@ -141,27 +144,31 @@ export function RHFAutoComplete<
             <TextField
               {...renderInputProps}
               {...params}
-              // Temporary workaround: MUI is deprecating InputProps, and we should use slotProps instead.
-              // Unfortunately, the library itself still uses InputProps internally.
-              // So until that's fixed, we have to handle it this way.
+              label={label}
+              inputRef={ref}
+              error={props.disabled !== true && error !== undefined}
               // eslint-disable-next-line @typescript-eslint/no-deprecated
               InputProps={{
                 ...params.InputProps,
                 // eslint-disable-next-line @typescript-eslint/no-deprecated
                 ...renderInputProps?.InputProps
               }}
-              label={label}
-              inputRef={ref}
-              error={props.disabled !== true && error !== undefined}
               helperText={
                 props.disabled !== true && error?.message !== undefined && error.message.length > 0
                   ? error.message
-                  : renderInputProps?.helperText !== undefined
+                  : (renderInputProps?.helperText !== undefined
                     ? renderInputProps.helperText
-                    : " "
+                    : " ")
               }
             />
           )}
+          onChange={(_, newValue) => {
+            if (multiple === true) {
+              onChange((newValue as OptionItem[]).map((n) => n.value));
+            } else {
+              onChange(newValue !== null ? (newValue as OptionItem).value : null);
+            }
+          }}
         />
       )}
     />

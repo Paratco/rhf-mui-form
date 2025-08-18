@@ -17,26 +17,35 @@ interface Category {
  * @extends SelectOptionBase - Base interface for the select options.
  */
 interface OptionItem extends SelectOptionBase {
+
   /** The value of the option, which is used as the key */
   value: string;
   category?: Category;
 }
 
 type Props<T extends FieldValues> = Omit<SelectProps, "name"> & {
+
   /** The name of the field in the form state */
   readonly name: Path<T>;
+
   /** An array of option items to be displayed in the select dropdown */
   readonly options: OptionItem[];
+
   /** The control object from React Hook Form, optional if useFormContext is used */
   readonly control?: Control<T>;
+
   /** The direction of the text input, either left-to-right (ltr) or right-to-left (rtl) */
   readonly inputDir?: "ltr" | "rtl";
+
   /** The maximum height of the select input */
   readonly maxHeight?: number;
+
   /** The maximum height of the dropdown menu */
   readonly dropDownMaxHeight?: number;
+
   /** If true, the options will be grouped by category */
   readonly categorized?: boolean;
+
   /** A string representing the label for items that do not belong to any category when categorized is enabled */
   readonly uncategorizedText?: string;
 };
@@ -182,57 +191,60 @@ export function RHFSelect<T extends FieldValues>({
                 // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 props.renderValue !== undefined
                   ? props.renderValue
-                  : isMultiple
+                  : (isMultiple
                     ? (s) => (
-                        <SelectRenderValue
-                          options={innerOptions}
-                          selected={s as string[]}
-                          maxHeight={maxHeight}
-                          inputDir={inputDir}
-                        />
-                      )
-                    : undefined
+                      <SelectRenderValue
+                        options={innerOptions}
+                        selected={s as string[]}
+                        maxHeight={maxHeight}
+                        inputDir={inputDir}
+                      />
+                    )
+                    : undefined)
               }
             >
               {categorized && groupedOptions !== null
                 ? Object.entries(groupedOptions.categories)
-                    // eslint-disable-next-line unicorn/no-array-reduce
-                    .reduce((acc: ReactElement[], [groupValue, groupItems]) => {
-                      acc.push(
-                        <ListSubheader key={groupValue}>{innerOptions[groupItems[0]].category?.label}</ListSubheader>
-                      );
-                      // eslint-disable-next-line unicorn/prefer-single-call
-                      acc.push(
-                        ...groupItems.map((gItem) => (
-                          <MenuItem value={gItem} key={gItem} disabled={innerOptions[gItem].disabled} dir={inputDir}>
-                            <Checkbox checked={(value as string[]).includes(gItem)} />
-                            {innerOptions[gItem].label}
-                          </MenuItem>
-                        ))
-                      );
-                      return acc;
-                    }, [])
-                    .concat(
-                      groupedOptions.uncategorized.length > 0 ? (
-                        <ListSubheader key="rhf-uncategorized">{uncategorizedText}</ListSubheader>
-                      ) : (
-                        []
-                      )
-                    )
-                    .concat(
-                      groupedOptions.uncategorized.map((gItem) => (
+                // eslint-disable-next-line unicorn/no-array-reduce
+                  .reduce((acc: ReactElement[], [groupValue, groupItems]) => {
+                    acc.push(
+                      <ListSubheader key={groupValue}>{innerOptions[groupItems[0]].category?.label}</ListSubheader>
+                    );
+                    // eslint-disable-next-line unicorn/prefer-single-call
+                    acc.push(
+                      ...groupItems.map((gItem) => (
                         <MenuItem value={gItem} key={gItem} disabled={innerOptions[gItem].disabled} dir={inputDir}>
                           <Checkbox checked={(value as string[]).includes(gItem)} />
                           {innerOptions[gItem].label}
                         </MenuItem>
                       ))
-                    )
+                    );
+
+                    return acc;
+                  }, [])
+                  .concat(
+                    groupedOptions.uncategorized.length > 0
+                      ? (
+                        <ListSubheader key="rhf-uncategorized">{uncategorizedText}</ListSubheader>
+                      )
+                      : (
+                        []
+                      )
+                  )
+                  .concat(
+                    groupedOptions.uncategorized.map((gItem) => (
+                      <MenuItem value={gItem} key={gItem} disabled={innerOptions[gItem].disabled} dir={inputDir}>
+                        <Checkbox checked={(value as string[]).includes(gItem)} />
+                        {innerOptions[gItem].label}
+                      </MenuItem>
+                    ))
+                  )
                 : Object.entries(innerOptions).map(([hash, option]) => (
-                    <MenuItem value={hash} key={hash} disabled={option.disabled} dir={inputDir}>
-                      {isMultiple ? <Checkbox checked={(value as string[]).includes(hash)} /> : null}
-                      {option.label}
-                    </MenuItem>
-                  ))}
+                  <MenuItem value={hash} key={hash} disabled={option.disabled} dir={inputDir}>
+                    {isMultiple ? <Checkbox checked={(value as string[]).includes(hash)} /> : null}
+                    {option.label}
+                  </MenuItem>
+                ))}
             </Select>
             <FormHelperText>
               {props.disabled !== true && error?.message !== undefined && error.message.length > 0

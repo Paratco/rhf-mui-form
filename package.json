@@ -3,10 +3,10 @@
   "version": "1.2.4",
   "description": "MUI + React Hook Form Reusable Form Components",
   "author": "Paratco",
-  "license": "ISC",
+  "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Paratco/rhf-mui-form.git"
+    "url": "git+https://github.com/Paratco/rhf-mui-form.git"
   },
   "keywords": [
     "React",
@@ -23,14 +23,20 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "sideEffects": false,
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/",
+    "provenance": true
+  },
   "scripts": {
     "dev": "vite",
-    "build:check": "tsc --p ./tsconfig.build.json --noEmit",
     "build": "tsc --p ./tsconfig.build.json && vite build",
-    "format:check": "prettier --check lib/",
-    "format": "prettier --write lib/",
+    "build:check": "tsc --p ./tsconfig.build.json --noEmit",
     "lint": "eslint . --report-unused-disable-directives-severity error --max-warnings 0",
-    "preview": "vite preview"
+    "lint:fix": "eslint . --fix",
+    "preview": "vite preview",
+    "release": "semantic-release",
+    "release-dry-debug": "semantic-release --no-ci -d --debug",
+    "release-dry": "semantic-release --no-ci -d"
   },
   "peerDependencies": {
     "@mui/material": "^6.4.0 || ^7.3.0",
@@ -56,28 +62,35 @@
     "object-hash": "^3.0.0"
   },
   "devDependencies": {
+    "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
     "@hookform/resolvers": "^5.2.1",
     "@mui/material": "^7.3.1",
+    "@mui/stylis-plugin-rtl": "^7.3.1",
     "@mui/x-date-pickers": "^8.10.0",
     "@paratco/eslint-config": "^3.1.4",
-    "@paratco/prettier-config": "^0.2.0",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/commit-analyzer": "^13.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/github": "^11.0.4",
+    "@semantic-release/npm": "^12.0.2",
+    "@semantic-release/release-notes-generator": "^14.0.3",
     "@types/node": "^24.3.0",
     "@types/object-hash": "^3.0.6",
     "@types/react": "^19.1.10",
     "@types/react-dom": "^19.1.7",
     "@types/stylis": "^4.2.7",
     "@vitejs/plugin-react": "^5.0.0",
+    "conventional-changelog-conventionalcommits": "^9.1.0",
     "date-fns-jalali": "^4.0.0-0",
     "eslint": "^9.33.0",
-    "prettier": "^3.6.2",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-hook-form": "^7.62.0",
     "react-imask": "^7.6.1",
+    "semantic-release": "^24.2.7",
     "stylis": "^4.3.6",
-    "stylis-plugin-rtl": "^2.1.1",
     "tslib": "^2.8.1",
     "typescript": "^5.9.2",
     "vite": "^7.1.2",

@@ -13,21 +13,28 @@ import SelectRenderValue from "./partials/SelectRenderValue";
  * @extends SelectOptionBase - Base interface for the select options.
  */
 interface OptionItem extends SelectOptionBase {
+
   /** The value of the option, which can be any type */
   value: NotUndefined;
 }
 
 type Props<T extends FieldValues> = Omit<SelectProps, "name"> & {
+
   /** The name of the field in the form state */
   readonly name: Path<T>;
+
   /** An array of option items to be displayed in the select dropdown */
   readonly options: OptionItem[];
+
   /** The control object from React Hook Form, optional if useFormContext is used */
   readonly control?: Control<T>;
+
   /** The direction of the text input, either left-to-right (ltr) or right-to-left (rtl) */
   readonly inputDir?: "ltr" | "rtl";
+
   /** The maximum height of the select input */
   readonly maxHeight?: number;
+
   /** The maximum height of the dropdown menu */
   readonly dropDownMaxHeight?: number;
 };
@@ -135,13 +142,6 @@ export function RHFSelectPro<T extends FieldValues>({
               error={props.disabled !== true && error !== undefined}
               value={hashedValue}
               {...field}
-              onChange={(event) => {
-                onChange(
-                  isMultiple
-                    ? (event.target.value as string[]).map((v) => hashedOptions[v].value)
-                    : hashedOptions[event.target.value as string].value
-                );
-              }}
               MenuProps={{
                 ...props.MenuProps,
                 slotProps: {
@@ -163,30 +163,37 @@ export function RHFSelectPro<T extends FieldValues>({
                 // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
                 props.renderValue !== undefined
                   ? props.renderValue
-                  : isMultiple
+                  : (isMultiple
                     ? (s) => (
-                        <SelectRenderValue
-                          options={hashedOptions}
-                          selected={s as string[]}
-                          maxHeight={maxHeight}
-                          inputDir={inputDir}
-                        />
-                      )
-                    : undefined
+                      <SelectRenderValue
+                        options={hashedOptions}
+                        selected={s as string[]}
+                        maxHeight={maxHeight}
+                        inputDir={inputDir}
+                      />
+                    )
+                    : undefined)
               }
+              onChange={(event) => {
+                onChange(
+                  isMultiple
+                    ? (event.target.value as string[]).map((v) => hashedOptions[v].value)
+                    : hashedOptions[event.target.value as string].value
+                );
+              }}
             >
               {isMultiple
                 ? Object.entries(hashedOptions).map(([hash, option]) => (
-                    <MenuItem value={hash} key={hash} disabled={option.disabled} dir={inputDir}>
-                      <Checkbox checked={hashedValue.includes(hash)} />
-                      {option.label}
-                    </MenuItem>
-                  ))
+                  <MenuItem value={hash} key={hash} disabled={option.disabled} dir={inputDir}>
+                    <Checkbox checked={hashedValue.includes(hash)} />
+                    {option.label}
+                  </MenuItem>
+                ))
                 : Object.entries(hashedOptions).map(([hash, option]) => (
-                    <MenuItem value={hash} key={hash} disabled={option.disabled} dir={inputDir}>
-                      {option.label}
-                    </MenuItem>
-                  ))}
+                  <MenuItem value={hash} key={hash} disabled={option.disabled} dir={inputDir}>
+                    {option.label}
+                  </MenuItem>
+                ))}
             </Select>
             <FormHelperText>
               {props.disabled !== true && error?.message !== undefined && error.message.length > 0

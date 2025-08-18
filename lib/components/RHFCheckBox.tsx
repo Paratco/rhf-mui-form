@@ -5,10 +5,13 @@ import { Checkbox, FormControl, FormControlLabel, FormHelperText } from "@mui/ma
 import type { ReactElement, ReactNode } from "react";
 
 type Props<T extends FieldValues> = Omit<CheckboxProps, "name"> & {
+
   /** The name of the field in the form state */
   readonly name: Path<T>;
+
   /** The label that will appear next to the checkbox */
   readonly label: ReactNode;
+
   /** The control object from React Hook Form, optional if useFormContext is used */
   readonly control?: Control<T>;
 };
@@ -56,7 +59,8 @@ export function RHFCheckBox<T extends FieldValues>({ name, label, control, ...pr
       render={({ field: { value, onChange, ...field }, fieldState: { error } }) => (
         <FormControl error={props.disabled !== true && error !== undefined}>
           <FormControlLabel
-            control={
+            label={label}
+            control={(
               <Checkbox
                 {...props}
                 {...field}
@@ -65,8 +69,7 @@ export function RHFCheckBox<T extends FieldValues>({ name, label, control, ...pr
                   onChange(e.target.checked);
                 }}
               />
-            }
-            label={label}
+            )}
           />
           <FormHelperText>
             {props.disabled !== true && error?.message !== undefined && error.message.length > 0 ? error.message : " "}
