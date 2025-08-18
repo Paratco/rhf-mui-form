@@ -23,6 +23,9 @@ type Props<T extends FieldValues> = Omit<RadioGroupProps, "name"> & {
 
   /** The control object from React Hook Form, optional if useFormContext is used */
   readonly control?: Control<T>;
+
+  /** If `true`, the component is disabled. */
+  readonly disabled?: boolean;
 };
 
 /**
@@ -38,6 +41,7 @@ type Props<T extends FieldValues> = Omit<RadioGroupProps, "name"> & {
  * @param {OptionItem[]} options - An array of options for the radio buttons, each having a label and value.
  * @param {ReactElement<typeof FormLabel>} [formLabel] - A FormLabel component to be displayed above the radio buttons.
  * @param {Control<T>} [control] - The React Hook Form control object. If not provided, the form context will be used.
+ * @param {boolean} [disabled] - If `true`, the component is disabled.
  * @param {RadioGroupProps} props - Additional props passed to the underlying MUI `RadioGroup`.
  *
  * @returns {ReactElement} A controlled `RadioGroup` component integrated with React Hook Form.
@@ -71,6 +75,7 @@ export function RHFRadioGroup<T extends FieldValues>({
   options,
   formLabel,
   control,
+  disabled,
   ...props
 }: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
@@ -79,17 +84,35 @@ export function RHFRadioGroup<T extends FieldValues>({
     <Controller
       name={name}
       control={control ?? formContext.control}
-      render={({ field, fieldState: { error } }) => (
+      disabled={disabled}
+      render={({ field: { onChange, onBlur, ...field }, fieldState: { error } }) => (
         <FormControl error={error !== undefined}>
           {formLabel ?? null}
-          <RadioGroup {...props} {...field}>
+          <RadioGroup
+            {...props}
+            onChange={(...p) => {
+              onChange(...p);
+
+              if (props.onChange !== undefined) {
+                props.onChange(...p);
+              }
+            }}
+            onBlur={(...p) => {
+              onBlur();
+
+              if (props.onBlur !== undefined) {
+                props.onBlur(...p);
+              }
+            }}
+            {...field}
+          >
             {options.map((option) => (
               <FormControlLabel
                 key={option.value}
                 value={option.value}
                 control={<Radio />}
                 label={option.label}
-                disabled={option.disabled}
+                disabled={(field.disabled === true) || option.disabled}
               />
             ))}
           </RadioGroup>

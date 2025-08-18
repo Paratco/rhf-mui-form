@@ -61,6 +61,7 @@ type Props<
  * @param {Control<T>} [control] - The React Hook Form control object. If not provided, `useFormContext` is used to access the form control.
  * @param {TextFieldProps} [renderInputProps] - Additional props to pass to the underlying MUI `TextField`.
  * @param {boolean} [multiple] - To support single or multiple selections.
+ * @param {boolean} [disabled] - If `true`, the component is disabled.
  * @param {AutocompleteProps<Value, Multiple, DisableClearable, FreeSolo>} props - Additional props passed to the `Autocomplete` component.
  *
  * @returns {ReactElement} A controlled `Autocomplete` component integrated with React Hook Form.
@@ -99,6 +100,7 @@ export function RHFAutoComplete<
   control,
   renderInputProps,
   multiple,
+  disabled,
   ...props
 }: Props<T, Value, Multiple, DisableClearable, FreeSolo>): ReactElement {
   const formContext = useFormContext<T>();
@@ -117,7 +119,8 @@ export function RHFAutoComplete<
     <Controller
       name={name}
       control={control ?? formContext.control}
-      render={({ field: { onChange, value, ref }, fieldState: { error } }) => (
+      disabled={disabled}
+      render={({ field: { value, onChange, onBlur, ref, ...field }, fieldState: { error } }) => (
         <Autocomplete<Value, Multiple, DisableClearable, FreeSolo>
           fullWidth={true}
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -144,9 +147,10 @@ export function RHFAutoComplete<
             <TextField
               {...renderInputProps}
               {...params}
-              label={label}
               inputRef={ref}
-              error={props.disabled !== true && error !== undefined}
+              {...field}
+              label={label}
+              error={field.disabled !== true && error !== undefined}
               // eslint-disable-next-line @typescript-eslint/no-deprecated
               InputProps={{
                 ...params.InputProps,
@@ -154,7 +158,7 @@ export function RHFAutoComplete<
                 ...renderInputProps?.InputProps
               }}
               helperText={
-                props.disabled !== true && error?.message !== undefined && error.message.length > 0
+                field.disabled !== true && error?.message !== undefined && error.message.length > 0
                   ? error.message
                   : (renderInputProps?.helperText !== undefined
                     ? renderInputProps.helperText
@@ -162,11 +166,22 @@ export function RHFAutoComplete<
               }
             />
           )}
-          onChange={(_, newValue) => {
+          onChange={(event, newValue, ...rest) => {
             if (multiple === true) {
               onChange((newValue as OptionItem[]).map((n) => n.value));
             } else {
               onChange(newValue !== null ? (newValue as OptionItem).value : null);
+            }
+
+            if (props.onChange !== undefined) {
+              props.onChange(event, newValue, ...rest);
+            }
+          }}
+          onBlur={(...p) => {
+            onBlur();
+
+            if (props.onBlur !== undefined) {
+              props.onBlur(...p);
             }
           }}
         />

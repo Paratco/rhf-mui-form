@@ -25,6 +25,7 @@ type Props<T extends FieldValues> = Omit<SwitchProps, "name"> & {
  * @param name - The name of the field in the form state. This is required to connect the `Switch` to the form.
  * @param label - The label that will be displayed alongside the switch.
  * @param control - The control object provided by React Hook Form. If omitted, it uses `useFormContext` to retrieve it.
+ * @param {boolean} [disabled] - If `true`, the component is disabled.
  * @param props - Additional props to pass down to the `Switch` component.
  *
  * @returns A `ReactElement` rendering the controlled `Switch` component within a `FormControl` with validation support.
@@ -57,30 +58,48 @@ type Props<T extends FieldValues> = Omit<SwitchProps, "name"> & {
  * />
  * ```
  */
-export function RHFSwitch<T extends FieldValues>({ name, label, control, ...props }: Props<T>): ReactElement {
+export function RHFSwitch<T extends FieldValues>({
+  name,
+  label,
+  control,
+  disabled,
+  ...props
+}: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
 
   return (
     <Controller
       name={name}
       control={control ?? formContext.control}
-      render={({ field: { value, onChange, ...field }, fieldState: { error } }) => (
-        <FormControl error={props.disabled !== true && error !== undefined}>
+      disabled={disabled}
+      render={({ field: { value, onChange, onBlur, ...field }, fieldState: { error } }) => (
+        <FormControl error={field.disabled !== true && error !== undefined}>
           <FormControlLabel
             label={label}
             control={(
               <Switch
                 {...props}
-                {...field}
                 checked={value === true}
-                onChange={(e) => {
-                  onChange(e.target.checked);
+                onChange={(...p) => {
+                  onChange(...p);
+
+                  if (props.onChange !== undefined) {
+                    props.onChange(...p);
+                  }
                 }}
+                onBlur={(...p) => {
+                  onBlur();
+
+                  if (props.onBlur !== undefined) {
+                    props.onBlur(...p);
+                  }
+                }}
+                {...field}
               />
             )}
           />
           <FormHelperText>
-            {props.disabled !== true && error?.message !== undefined && error.message.length > 0 ? error.message : " "}
+            {field.disabled !== true && error?.message !== undefined && error.message.length > 0 ? error.message : " "}
           </FormHelperText>
         </FormControl>
       )}

@@ -33,6 +33,7 @@ type Props<T extends FieldValues> = Omit<DateTimePickerProps, "name"> & {
  * @param {Path<T>} name - The name of the field in the form state.
  * @param {Control<T>} [control] - The React Hook Form control object. If not provided, the form context will be used.
  * @param {boolean} [isReadOnly] - Specifies whether the input is read-only.
+ * @param {boolean} [disabled] - If `true`, the component is disabled.
  * @param {DateTimePickerProps} props - Additional props passed to the underlying MUI `DateTimePicker`.
  *
  * @returns {ReactElement} A controlled `DateTimePicker` component with Jalali calendar integration and React Hook Form support.
@@ -60,6 +61,7 @@ export function RHFDateTimePickerJalali<T extends FieldValues>({
   name,
   control,
   isReadOnly,
+  disabled,
   ...props
 }: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
@@ -68,7 +70,8 @@ export function RHFDateTimePickerJalali<T extends FieldValues>({
     <Controller
       name={name}
       control={control ?? formContext.control}
-      render={({ field: { value, ...field }, fieldState: { error } }) => (
+      disabled={disabled}
+      render={({ field: { value, onChange, ...field }, fieldState: { error } }) => (
         <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
           <DateTimePicker
             {...props}
@@ -90,10 +93,10 @@ export function RHFDateTimePickerJalali<T extends FieldValues>({
               textField: {
                 // eslint-disable-next-line @typescript-eslint/no-misused-spread
                 ...props.slotProps?.textField,
-                error: props.disabled !== true && error !== undefined,
+                error: field.disabled !== true && error !== undefined,
                 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
                 helperText:
-                  props.disabled !== true && error?.message !== undefined && error.message.length > 0
+                  field.disabled !== true && error?.message !== undefined && error.message.length > 0
                     ? error.message
                     : (
                       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -104,6 +107,13 @@ export function RHFDateTimePickerJalali<T extends FieldValues>({
                         ? props.slotProps.textField.helperText
                         : " "
                     )
+              }
+            }}
+            onChange={(...p) => {
+              onChange(...p);
+
+              if (props.onChange !== undefined) {
+                props.onChange(...p);
               }
             }}
             {...field}

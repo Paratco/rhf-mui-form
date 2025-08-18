@@ -74,6 +74,7 @@ const TextMaskInput = forwardRef<HTMLInputElement, TextMaskInputProps>(function 
  * @param {ReactMaskOpts} [maskOptions] - The options for input masking, as defined by `react-imask`.
  * @param {"ltr" | "rtl"} [inputDir] - The text direction for the input field, either left-to-right (ltr) or right-to-left (rtl).
  * @param {boolean} [isReadOnly] - If true, the input will be read-only.
+ * @param {boolean} [disabled] - If `true`, the component is disabled.
  * @param {TextFieldProps} props - Additional props passed to the underlying MUI `TextField`.
  *
  * @returns {ReactElement} A controlled `TextField` component integrated with React Hook Form and supporting input masking and read-only fields.
@@ -106,6 +107,7 @@ export function RHFTextMasked<T extends FieldValues>({
   maskOptions,
   inputDir,
   isReadOnly,
+  disabled,
   ...props
 }: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
@@ -114,20 +116,20 @@ export function RHFTextMasked<T extends FieldValues>({
     <Controller
       name={name}
       control={control ?? formContext.control}
-      render={({ field: { value, ...field }, fieldState: { error } }) => (
+      disabled={disabled}
+      render={({ field: { value, onChange, onBlur, ...field }, fieldState: { error } }) => (
         <TextField
           fullWidth={true}
           {...props}
-          error={props.disabled !== true && error !== undefined}
+          error={field.disabled !== true && error !== undefined}
           value={value ?? ""}
           helperText={
-            props.disabled !== true && error?.message !== undefined && error.message.length > 0
+            field.disabled !== true && error?.message !== undefined && error.message.length > 0
               ? error.message
               : (props.helperText !== undefined
                 ? props.helperText
                 : " ")
           }
-          {...field}
           slotProps={{
             ...props.slotProps,
             input: {
@@ -162,6 +164,21 @@ export function RHFTextMasked<T extends FieldValues>({
               }
             }
           }}
+          onChange={(...p) => {
+            onChange(...p);
+
+            if (props.onChange !== undefined) {
+              props.onChange(...p);
+            }
+          }}
+          onBlur={(...p) => {
+            onBlur();
+
+            if (props.onBlur !== undefined) {
+              props.onBlur(...p);
+            }
+          }}
+          {...field}
         />
       )}
     />
