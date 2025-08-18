@@ -65,6 +65,7 @@ type Props<T extends FieldValues> = Omit<SelectProps, "name"> & {
  * @param {"ltr" | "rtl"} [inputDir] - The direction of the text input, either left-to-right or right-to-left.
  * @param {number} [maxHeight] - The maximum height of the select input.
  * @param {number} [dropDownMaxHeight] - The maximum height of the dropdown menu.
+ * @param {boolean} [disabled] - If `true`, the component is disabled.
  * @param {boolean} [categorized] - If true, the options will be grouped by category.
  * @param {string} [uncategorizedText] - A string representing the label for items that do not belong to any category when categorized is enabled.
  * @param {SelectProps} props - Additional props passed to the underlying MUI `Select`.
@@ -105,6 +106,7 @@ export function RHFSelect<T extends FieldValues>({
   inputDir,
   maxHeight,
   dropDownMaxHeight,
+  disabled,
   categorized = false,
   uncategorizedText = "Uncategorized",
   ...props
@@ -156,20 +158,20 @@ export function RHFSelect<T extends FieldValues>({
     <Controller
       name={name}
       control={control ?? formContext.control}
-      render={({ field: { value, ...field }, fieldState: { error } }) => {
+      disabled={disabled}
+      render={({ field: { value, onChange, onBlur, ...field }, fieldState: { error } }) => {
         return (
           <FormControl
             fullWidth={true}
-            disabled={props.disabled}
-            error={props.disabled !== true && error !== undefined}
+            disabled={field.disabled}
+            error={field.disabled !== true && error !== undefined}
           >
             <InputLabel>{props.label}</InputLabel>
             <Select
               {...props}
-              error={props.disabled !== true && error !== undefined}
+              error={field.disabled !== true && error !== undefined}
               // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
               value={value === undefined ? (isMultiple ? [] : "") : value}
-              {...field}
               MenuProps={{
                 ...props.MenuProps,
                 slotProps: {
@@ -202,6 +204,21 @@ export function RHFSelect<T extends FieldValues>({
                     )
                     : undefined)
               }
+              onChange={(...p) => {
+                onChange(...p);
+
+                if (props.onChange !== undefined) {
+                  props.onChange(...p);
+                }
+              }}
+              onBlur={(...p) => {
+                onBlur();
+
+                if (props.onBlur !== undefined) {
+                  props.onBlur(...p);
+                }
+              }}
+              {...field}
             >
               {categorized && groupedOptions !== null
                 ? Object.entries(groupedOptions.categories)
@@ -247,7 +264,7 @@ export function RHFSelect<T extends FieldValues>({
                 ))}
             </Select>
             <FormHelperText>
-              {props.disabled !== true && error?.message !== undefined && error.message.length > 0
+              {field.disabled !== true && error?.message !== undefined && error.message.length > 0
                 ? error.message
                 : " "}
             </FormHelperText>
