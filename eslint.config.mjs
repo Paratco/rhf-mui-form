@@ -1,4 +1,4 @@
-import { createConfig } from "@paratco/eslint-config";
+import {createConfig} from "@paratco/eslint-config";
 
 export default createConfig({
   platform: "react",
@@ -12,6 +12,8 @@ export default createConfig({
     {
       rules: {
         "import-x/no-extraneous-dependencies": ["off"],
+        "@typescript-eslint/prefer-nullish-coalescing": "off",
+        "unicorn/no-array-reduce": "off"
       },
     },
   ],
