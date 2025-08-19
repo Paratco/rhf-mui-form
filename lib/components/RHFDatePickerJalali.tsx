@@ -4,6 +4,7 @@ import type { DatePickerProps } from "@mui/x-date-pickers";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 import type { ReactElement } from "react";
+import { getHelperText } from "../utils";
 
 type Props<T extends FieldValues> = Omit<DatePickerProps, "name"> & {
 
@@ -15,6 +16,9 @@ type Props<T extends FieldValues> = Omit<DatePickerProps, "name"> & {
 
   /** Whether the field is read-only */
   readonly isReadOnly?: boolean;
+
+  /** Whether the field has an empty helper text */
+  readonly hasEmptyHelper?: boolean;
 };
 
 /**
@@ -61,6 +65,7 @@ export function RHFDatePickerJalali<T extends FieldValues>({
   control,
   isReadOnly,
   disabled,
+  hasEmptyHelper = true,
   ...props
 }: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
@@ -88,19 +93,12 @@ export function RHFDatePickerJalali<T extends FieldValues>({
                 // eslint-disable-next-line @typescript-eslint/no-misused-spread
                 ...props.slotProps?.textField,
                 error: field.disabled !== true && error !== undefined,
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
                 helperText:
-                  field.disabled !== true && error?.message !== undefined && error.message.length > 0
-                    ? error.message
-                    : (
-                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                      // @ts-expect-error
-                      props.slotProps?.textField?.helperText !== undefined
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                        // @ts-expect-error
-                        ? props.slotProps.textField.helperText
-                        : " "
-                    )
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+                  getHelperText(field.disabled, error?.message, props.slotProps?.textField?.helperText, hasEmptyHelper)
               }
             }}
             onChange={(...p) => {

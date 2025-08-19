@@ -6,6 +6,7 @@ import type { ReactElement } from "react";
 import { forwardRef } from "react";
 import type { ReactMaskOpts } from "react-imask";
 import { IMaskInput } from "react-imask";
+import { getHelperText } from "../utils";
 
 type Props<T extends FieldValues> = Omit<TextFieldProps, "name"> & {
 
@@ -23,6 +24,9 @@ type Props<T extends FieldValues> = Omit<TextFieldProps, "name"> & {
 
   /** Whether the field is read-only */
   readonly isReadOnly?: boolean;
+
+  /** Whether the field has an empty helper text */
+  readonly hasEmptyHelper?: boolean;
 };
 
 interface TextMaskInputProps extends Omit<InputBaseComponentProps, "onChange"> {
@@ -108,6 +112,7 @@ export function RHFTextMasked<T extends FieldValues>({
   inputDir,
   isReadOnly,
   disabled,
+  hasEmptyHelper = true,
   ...props
 }: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
@@ -124,11 +129,7 @@ export function RHFTextMasked<T extends FieldValues>({
           error={field.disabled !== true && error !== undefined}
           value={value ?? ""}
           helperText={
-            field.disabled !== true && error?.message !== undefined && error.message.length > 0
-              ? error.message
-              : (props.helperText !== undefined
-                ? props.helperText
-                : " ")
+            getHelperText(field.disabled, error?.message, props.helperText, hasEmptyHelper)
           }
           slotProps={{
             ...props.slotProps,

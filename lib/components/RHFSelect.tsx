@@ -2,9 +2,10 @@ import type { Control, FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
 import type { SelectProps } from "@mui/material";
 import { ListSubheader, Checkbox, MenuItem, FormControl, FormHelperText, InputLabel, Select } from "@mui/material";
-import type { ReactElement } from "react";
+import type { ReactElement, ReactNode } from "react";
 import { useMemo } from "react";
 import type { SelectOptionBase } from "../types";
+import { getHelperText } from "../utils";
 import SelectRenderValue from "./partials/SelectRenderValue";
 
 interface Category {
@@ -48,6 +49,11 @@ type Props<T extends FieldValues> = Omit<SelectProps, "name"> & {
 
   /** A string representing the label for items that do not belong to any category when categorized is enabled */
   readonly uncategorizedText?: string;
+
+  /** Whether the field has an empty helper text */
+  readonly hasEmptyHelper?: boolean;
+
+  readonly helperText?: ReactNode;
 };
 
 /**
@@ -109,6 +115,8 @@ export function RHFSelect<T extends FieldValues>({
   disabled,
   categorized = false,
   uncategorizedText = "Uncategorized",
+  hasEmptyHelper = true,
+  helperText,
   ...props
 }: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
@@ -264,9 +272,7 @@ export function RHFSelect<T extends FieldValues>({
                 ))}
             </Select>
             <FormHelperText>
-              {field.disabled !== true && error?.message !== undefined && error.message.length > 0
-                ? error.message
-                : " "}
+              {getHelperText(field.disabled, error?.message, helperText, hasEmptyHelper)}
             </FormHelperText>
           </FormControl>
         );

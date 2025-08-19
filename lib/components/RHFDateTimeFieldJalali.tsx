@@ -4,6 +4,7 @@ import type { DateTimeFieldProps } from "@mui/x-date-pickers";
 import { DateTimeField, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDateFnsJalali } from "@mui/x-date-pickers/AdapterDateFnsJalali";
 import type { ReactElement } from "react";
+import { getHelperText } from "../utils";
 
 type Props<T extends FieldValues> = Omit<DateTimeFieldProps, "name"> & {
 
@@ -15,6 +16,9 @@ type Props<T extends FieldValues> = Omit<DateTimeFieldProps, "name"> & {
 
   /** Whether the field is read-only */
   readonly isReadOnly?: boolean;
+
+  /** Whether the field has an empty helper text */
+  readonly hasEmptyHelper?: boolean;
 };
 
 /**
@@ -61,6 +65,7 @@ export function RHFDateTimeFieldJalali<T extends FieldValues>({
   control,
   isReadOnly,
   disabled,
+  hasEmptyHelper = true,
   ...props
 }: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
@@ -73,29 +78,19 @@ export function RHFDateTimeFieldJalali<T extends FieldValues>({
       render={({ field: { value, onChange, onBlur, ...field }, fieldState: { error } }) => (
         <LocalizationProvider dateAdapter={AdapterDateFnsJalali}>
           <DateTimeField
+            fullWidth={true}
             {...props}
-            // eslint-disable-next-line @typescript-eslint/no-misused-spread
-            sx={{ width: "100%", ...props.sx }}
+            error={field.disabled !== true && error !== undefined}
             value={value ?? null}
+            helperText={
+              getHelperText(field.disabled, error?.message, props.helperText, hasEmptyHelper)
+            }
             slotProps={{
               ...props.slotProps,
               textField: {
+                readOnly: isReadOnly,
                 // eslint-disable-next-line @typescript-eslint/no-misused-spread
-                ...props.slotProps?.textField,
-                error: field.disabled !== true && error !== undefined,
-                // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-                helperText:
-                  field.disabled !== true && error?.message !== undefined && error.message.length > 0
-                    ? error.message
-                    : (
-                      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                      // @ts-expect-error
-                      props.slotProps?.textField?.helperText !== undefined
-                        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                      // @ts-expect-error
-                        ? props.slotProps.textField.helperText
-                        : " "
-                    )
+                ...props.slotProps?.textField
               }
             }}
             onChange={(...p) => {

@@ -1,8 +1,9 @@
-import type { ReactElement } from "react";
+import type { ReactElement, ReactNode } from "react";
 import type { RadioGroupProps, FormLabel } from "@mui/material";
 import { FormControl, FormControlLabel, Radio, RadioGroup, FormHelperText } from "@mui/material";
 import type { Control, FieldValues, Path } from "react-hook-form";
 import { Controller, useFormContext } from "react-hook-form";
+import { getHelperText } from "../utils";
 
 interface OptionItem {
   label: string;
@@ -26,6 +27,11 @@ type Props<T extends FieldValues> = Omit<RadioGroupProps, "name"> & {
 
   /** If `true`, the component is disabled. */
   readonly disabled?: boolean;
+
+  /** Whether the field has an empty helper text */
+  readonly hasEmptyHelper?: boolean;
+
+  readonly helperText?: ReactNode;
 };
 
 /**
@@ -76,6 +82,8 @@ export function RHFRadioGroup<T extends FieldValues>({
   formLabel,
   control,
   disabled,
+  hasEmptyHelper = true,
+  helperText,
   ...props
 }: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
@@ -116,7 +124,9 @@ export function RHFRadioGroup<T extends FieldValues>({
               />
             ))}
           </RadioGroup>
-          <FormHelperText>{error !== undefined ? error.message : " "}</FormHelperText>
+          <FormHelperText>
+            {getHelperText(field.disabled, error?.message, helperText, hasEmptyHelper)}
+          </FormHelperText>
         </FormControl>
       )}
     />
