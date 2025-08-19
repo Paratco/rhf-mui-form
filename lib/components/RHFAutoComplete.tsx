@@ -5,6 +5,7 @@ import { Autocomplete, TextField } from "@mui/material";
 import type { ReactElement, ReactNode } from "react";
 import { useMemo } from "react";
 import type { SelectOptionBase } from "../types";
+import { getHelperText } from "../utils";
 
 // Temporary workaround: MUI is deprecating InputProps, and we should use slotProps instead.
 // Unfortunately, the library itself still uses InputProps internally.
@@ -39,6 +40,11 @@ type Props<
 
   /** Optional: To support single or multiple selections */
   readonly multiple?: boolean;
+
+  /** Whether the field has an empty helper text */
+  readonly hasEmptyHelper?: boolean;
+
+  readonly helperText?: ReactNode;
 };
 
 /**
@@ -101,6 +107,8 @@ export function RHFAutoComplete<
   renderInputProps,
   multiple,
   disabled,
+  hasEmptyHelper = true,
+  helperText,
   ...props
 }: Props<T, Value, Multiple, DisableClearable, FreeSolo>): ReactElement {
   const formContext = useFormContext<T>();
@@ -158,11 +166,7 @@ export function RHFAutoComplete<
                 ...renderInputProps?.InputProps
               }}
               helperText={
-                field.disabled !== true && error?.message !== undefined && error.message.length > 0
-                  ? error.message
-                  : (renderInputProps?.helperText !== undefined
-                    ? renderInputProps.helperText
-                    : " ")
+                getHelperText(field.disabled, error?.message, helperText, hasEmptyHelper)
               }
             />
           )}

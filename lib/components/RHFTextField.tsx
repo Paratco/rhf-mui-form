@@ -3,6 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import type { TextFieldProps } from "@mui/material";
 import { TextField } from "@mui/material";
 import type { ReactElement } from "react";
+import { getHelperText } from "../utils";
 
 type Props<T extends FieldValues> = Omit<TextFieldProps, "name"> & {
 
@@ -17,6 +18,9 @@ type Props<T extends FieldValues> = Omit<TextFieldProps, "name"> & {
 
   /** Whether the field is read-only */
   readonly isReadOnly?: boolean;
+
+  /** Whether the field has an empty helper text */
+  readonly hasEmptyHelper?: boolean;
 };
 
 /**
@@ -65,6 +69,7 @@ export function RHFTextField<T extends FieldValues>({
   inputDir,
   isReadOnly,
   disabled,
+  hasEmptyHelper = true,
   ...props
 }: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
@@ -81,11 +86,7 @@ export function RHFTextField<T extends FieldValues>({
           error={field.disabled !== true && error !== undefined}
           value={value ?? ""}
           helperText={
-            field.disabled !== true && error?.message !== undefined && error.message.length > 0
-              ? error.message
-              : (props.helperText !== undefined
-                ? props.helperText
-                : " ")
+            getHelperText(field.disabled, error?.message, props.helperText, hasEmptyHelper)
           }
           slotProps={{
             ...props.slotProps,

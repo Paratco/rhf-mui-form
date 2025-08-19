@@ -3,6 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import type { SwitchProps } from "@mui/material";
 import { Switch, FormControl, FormControlLabel, FormHelperText } from "@mui/material";
 import type { ReactElement, ReactNode } from "react";
+import { getHelperText } from "../utils";
 
 type Props<T extends FieldValues> = Omit<SwitchProps, "name"> & {
 
@@ -14,6 +15,11 @@ type Props<T extends FieldValues> = Omit<SwitchProps, "name"> & {
 
   /** The control object from React Hook Form, optional if useFormContext is used */
   readonly control?: Control<T>;
+
+  /** Whether the field has an empty helper text */
+  readonly hasEmptyHelper?: boolean;
+
+  readonly helperText?: ReactNode;
 };
 
 /**
@@ -63,6 +69,8 @@ export function RHFSwitch<T extends FieldValues>({
   label,
   control,
   disabled,
+  hasEmptyHelper = true,
+  helperText,
   ...props
 }: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
@@ -99,7 +107,7 @@ export function RHFSwitch<T extends FieldValues>({
             )}
           />
           <FormHelperText>
-            {field.disabled !== true && error?.message !== undefined && error.message.length > 0 ? error.message : " "}
+            {getHelperText(field.disabled, error?.message, helperText, hasEmptyHelper)}
           </FormHelperText>
         </FormControl>
       )}
