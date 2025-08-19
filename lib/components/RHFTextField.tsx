@@ -6,70 +6,20 @@ import type { ReactElement } from "react";
 import { getHelperText } from "../utils";
 
 type Props<T extends FieldValues> = Omit<TextFieldProps, "name"> & {
-
-  /** The name of the field in the form state */
   readonly name: Path<T>;
-
-  /** The control object from React Hook Form, optional if useFormContext is used */
   readonly control?: Control<T>;
-
-  /** Direction of the text input (left-to-right or right-to-left) */
   readonly inputDir?: "ltr" | "rtl";
-
-  /** Whether the field is read-only */
   readonly isReadOnly?: boolean;
-
-  /** Whether the field has an empty helper text */
   readonly hasEmptyHelper?: boolean;
 };
 
-/**
- * `RHFTextField` is a wrapper around MIUI's `TextField` component that integrates with React Hook Form.
- * It only works with controlled fields in React Hook Form (RHF).
- * Default value should be an empty string.
- *
- * - The component can either receive the RHF control as a prop or use `useFormContext` to automatically access the form control.
- * - It supports optional `inputDir` to set the text direction (`ltr` or `rtl`), and the `isReadOnly` prop to make the input read-only.
- *
- * @template T - A generic type for the form's field values, extending `FieldValues`.
- *
- * @param {Path<T>} name - The name of the field in the form state.
- * @param {Control<T>} [control] - The React Hook Form control object. If not provided, the form context will be used.
- * @param {"ltr" | "rtl"} [inputDir] - The text direction for the input. Can be "ltr" (left-to-right) or "rtl" (right-to-left).
- * @param {boolean} [isReadOnly] - Specifies whether the input is read-only.
- * @param {boolean} [disabled] - If `true`, the component is disabled.
- * @param {TextFieldProps} props - Additional props passed to the underlying MUI `TextField`.
- *
- * @returns {ReactElement} A controlled `TextField` component integrated with React Hook Form.
- *
- * @example
- * ```tsx
- * <RHFTextField
- *   name="firstName"
- *   label="First Name"
- *   control={control} // Optional, if useFormContext is not used
- *   inputDir="ltr"
- *   isReadOnly={false}
- * />
- * ```
- *
- * @example
- * ```tsx
- * <RHFTextField
- *   name="email"
- *   label="Email Address"
- *   isReadOnly
- *   inputDir="rtl"
- * />
- * ```
- */
 export function RHFTextField<T extends FieldValues>({
   name,
   control,
   inputDir,
   isReadOnly,
-  disabled,
   hasEmptyHelper = true,
+  disabled,
   ...props
 }: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
@@ -90,20 +40,28 @@ export function RHFTextField<T extends FieldValues>({
           }
           slotProps={{
             ...props.slotProps,
-            input: {
-              readOnly: isReadOnly,
-              // eslint-disable-next-line @typescript-eslint/no-misused-spread
-              ...props.slotProps?.input
+            input: (ownerState) => {
+              const input = typeof props.slotProps?.input === "function"
+                ? props.slotProps.input(ownerState)
+                : props.slotProps?.input;
+
+              return {
+                readOnly: isReadOnly,
+                ...input
+              };
             },
-            htmlInput: {
-              // eslint-disable-next-line @typescript-eslint/no-misused-spread
-              ...props.slotProps?.htmlInput,
-              style: {
-                direction: inputDir,
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-expect-error
-                ...props.slotProps?.htmlInput?.style
-              }
+            htmlInput: (ownerState) => {
+              const htmlInput = typeof props.slotProps?.htmlInput === "function"
+                ? props.slotProps.htmlInput(ownerState)
+                : props.slotProps?.htmlInput;
+
+              return {
+                ...htmlInput,
+                style: {
+                  direction: inputDir,
+                  ...htmlInput?.style
+                }
+              };
             }
           }}
           onChange={(...p) => {

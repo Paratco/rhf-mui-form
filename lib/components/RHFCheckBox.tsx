@@ -6,63 +6,20 @@ import type { ReactElement, ReactNode } from "react";
 import { getHelperText } from "../utils";
 
 type Props<T extends FieldValues> = Omit<CheckboxProps, "name"> & {
-
-  /** The name of the field in the form state */
   readonly name: Path<T>;
-
-  /** The label that will appear next to the checkbox */
   readonly label: ReactNode;
-
-  /** The control object from React Hook Form, optional if useFormContext is used */
   readonly control?: Control<T>;
-
-  /** Whether the field has an empty helper text */
-  readonly hasEmptyHelper?: boolean;
-
   readonly helperText?: ReactNode;
+  readonly hasEmptyHelper?: boolean;
 };
 
-/**
- * `RHFCheckBox` is a wrapper around MIUI's `Checkbox` component that integrates with React Hook Form.
- * It manages the checkbox state and error handling, allowing seamless integration into forms.
- *
- * - The component can either receive the RHF control as a prop or use `useFormContext` to automatically access the form control.
- *
- * @template T - A generic type for the form's field values, extending `FieldValues`.
- *
- * @param {Path<T>} name - The name of the field in the form state.
- * @param {string} label - The label for the checkbox.
- * @param {Control<T>} [control] - The React Hook Form control object. If not provided, the form context will be used.
- * @param {boolean} [disabled] - If `true`, the component is disabled.
- * @param {CheckboxProps} props - Additional props passed to the underlying MUI `Checkbox`.
- *
- * @returns {ReactElement} A controlled checkbox component integrated with React Hook Form.
- *
- * @example
- * ```tsx
- * <RHFCheckBox
- *   name="termsAndConditions"
- *   label="I agree to the terms and conditions"
- *   control={control} // Optional, if useFormContext is not used
- * />
- * ```
- *
- * @example
- * ```tsx
- * <RHFCheckBox
- *   name="newsletter"
- *   label="Subscribe to newsletter"
- *   color="primary"
- * />
- * ```
- */
 export function RHFCheckBox<T extends FieldValues>({
   name,
   label,
   control,
-  disabled,
-  hasEmptyHelper = true,
   helperText,
+  hasEmptyHelper = true,
+  disabled,
   ...props
 }: Props<T>): ReactElement {
   const formContext = useFormContext<T>();
