@@ -10,8 +10,6 @@ export { RHFRadioGroup } from "./components/RHFRadioGroup";
 
 export { RHFSelect } from "./components/RHFSelect";
 
-export { RHFSelectPro } from "./components/RHFSelectPro";
-
 export { RHFSwitch } from "./components/RHFSwitch";
 
 export { RHFTextField } from "./components/RHFTextField";
