@@ -1,3 +1,9 @@
+## [1.3.1](https://github.com/Paratco/rhf-mui-form/compare/1.3.0...1.3.1) (2025-08-22)
+
+### 🐛 Bug Fixes
+
+* missing text masked maskOptions ([f797150](https://github.com/Paratco/rhf-mui-form/commit/f797150208247f1ab00af61a7a327fa73c3eecf3))
+
 ## [1.3.0](https://github.com/Paratco/rhf-mui-form/compare/1.2.4...1.3.0) (2025-08-19)
 
 ### 🚀 Features
