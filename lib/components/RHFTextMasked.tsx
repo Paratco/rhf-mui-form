@@ -24,12 +24,13 @@ interface TextMaskInputProps extends Omit<InputBaseComponentProps, "onChange"> {
 }
 
 function TextMaskInput(props: TextMaskInputProps): ReactElement {
-  const { maskOptions, onChange, name, ref, ...other } = props;
+  const { onChange, maskOptions, name, ref, ...other } = props;
 
   return (
     <IMaskInput
       {...maskOptions}
       {...other}
+      name={name}
       inputRef={ref}
       onAccept={(value: unknown) => {
         onChange({ target: { name: name, value: value as string } });
@@ -80,7 +81,8 @@ export function RHFTextMasked<T extends FieldValues>({
                   style: {
                     direction: inputDir,
                     ...input?.inputProps?.style
-                  }
+                  },
+                  maskOptions
                 }
               };
             },
