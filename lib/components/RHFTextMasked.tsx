@@ -24,16 +24,17 @@ interface TextMaskInputProps extends Omit<InputBaseComponentProps, "onChange"> {
 }
 
 function TextMaskInput(props: TextMaskInputProps): ReactElement {
-  const { onChange, maskOptions, name, ref, ...other } = props;
+  const { onChange, maskOptions, value, name, ref, ...other } = props;
 
   return (
     <IMaskInput
       {...maskOptions}
       {...other}
+      value={value !== undefined && value !== null ? (value as number).toString() : (value as string)}
       name={name}
       inputRef={ref}
-      onAccept={(value: unknown) => {
-        onChange({ target: { name: name, value: value as string } });
+      onAccept={(val: unknown) => {
+        onChange({ target: { name: name, value: val as string } });
       }}
     />
   );
