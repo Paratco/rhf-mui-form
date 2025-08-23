@@ -1,3 +1,9 @@
+## [1.3.2](https://github.com/Paratco/rhf-mui-form/compare/1.3.1...1.3.2) (2025-08-23)
+
+### 🐛 Bug Fixes
+
+* text masked numeric value ([1d0b4d3](https://github.com/Paratco/rhf-mui-form/commit/1d0b4d3a3f5b2cfd6d784c02b36bc05640cbb0b2))
+
 ## [1.3.1](https://github.com/Paratco/rhf-mui-form/compare/1.3.0...1.3.1) (2025-08-22)
 
 ### 🐛 Bug Fixes
