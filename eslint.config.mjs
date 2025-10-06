@@ -5,7 +5,7 @@ export default createConfig({
   style: "stylistic",
   useImport: true,
   typescript: {
-    tsconfigRootDir: "./",
+    tsconfigRootDir: import.meta.dirname,
     project: "./tsconfig.app.json",
   },
   overrides: [
