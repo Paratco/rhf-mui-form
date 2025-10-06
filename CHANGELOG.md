@@ -1,3 +1,10 @@
+## [1.3.3](https://github.com/Paratco/rhf-mui-form/compare/1.3.2...1.3.3) (2025-10-06)
+
+### 🐛 Bug Fixes
+
+* eslint tsconfig path ([1999cd7](https://github.com/Paratco/rhf-mui-form/commit/1999cd7221ed65c291ff03179e821f130205e1ae))
+* update packages ([b46749c](https://github.com/Paratco/rhf-mui-form/commit/b46749cce27e170e7b044a475ee334e5ec8bf309))
+
 ## [1.3.2](https://github.com/Paratco/rhf-mui-form/compare/1.3.1...1.3.2) (2025-08-23)
 
 ### 🐛 Bug Fixes
