@@ -85,7 +85,7 @@
     "react-dom": "^19.2.0",
     "react-hook-form": "^7.64.0",
     "react-imask": "^7.6.1",
-    "semantic-release": "^24.2.9",
+    "semantic-release": "^25.0.0",
     "stylis": "^4.3.6",
     "tslib": "^2.8.1",
     "typescript": "^5.9.3",
