@@ -1,3 +1,9 @@
+## [2.0.1](https://github.com/Paratco/rhf-mui-form/compare/2.0.0...2.0.1) (2026-05-16)
+
+### 🐛 Bug Fixes
+
+* fix dts config ([f68cf1d](https://github.com/Paratco/rhf-mui-form/commit/f68cf1db3d82237f53f9aa1190e70c01a3edb1d5))
+
 ## [2.0.0](https://github.com/Paratco/rhf-mui-form/compare/1.3.3...2.0.0) (2026-05-16)
 
 ### ⚠ BREAKING CHANGES
