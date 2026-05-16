@@ -87,7 +87,11 @@ export function RHFAutoComplete<
               : (multiple === true ? [] : null)
           }
           isOptionEqualToValue={(option, val) => {
-            return option.value === val.value;
+            if (typeof val === "object" && "value" in val) {
+              return option.value === (val).value;
+            }
+
+            return option.value === val;
           }}
           getOptionLabel={(option) => {
             return (option as OptionItem).label;
@@ -100,11 +104,9 @@ export function RHFAutoComplete<
               {...field}
               label={label}
               error={field.disabled !== true && error !== undefined}
-              // eslint-disable-next-line @typescript-eslint/no-deprecated
-              InputProps={{
-                ...params.InputProps,
-                // eslint-disable-next-line @typescript-eslint/no-deprecated
-                ...renderInputProps?.InputProps
+              slotProps={{
+                ...params.slotProps,
+                ...renderInputProps?.slotProps
               }}
               helperText={
                 getHelperText(field.disabled, error?.message, helperText, hasEmptyHelper)

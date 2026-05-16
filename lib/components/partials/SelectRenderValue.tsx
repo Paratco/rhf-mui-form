@@ -24,15 +24,15 @@ function Chips({ options, selected }: ChipsProps): ReactElement | ReactElement[]
 function SelectRenderValue({ options, selected, maxHeight, inputDir }: Props): ReactElement {
   if (maxHeight === undefined) {
     return (
-      <Stack direction="row" flexWrap="wrap" gap={1}>
+      <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1 }}>
         <Chips options={options} selected={selected} />
       </Stack>
     );
   }
 
   return (
-    <Stack dir="ltr" maxHeight={maxHeight} sx={{ overflowY: "auto" }}>
-      <Stack dir={inputDir} direction="row" flexWrap="wrap" gap={1}>
+    <Stack dir="ltr" sx={{ overflowY: "auto", maxHeight: maxHeight }}>
+      <Stack direction="row" sx={{ dir: inputDir, flexWrap: "wrap", gap: 1 }}>
         <Chips options={options} selected={selected} />
       </Stack>
     </Stack>
