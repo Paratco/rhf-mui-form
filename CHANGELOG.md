@@ -1,3 +1,13 @@
+## [2.0.0](https://github.com/Paratco/rhf-mui-form/compare/1.3.3...2.0.0) (2026-05-16)
+
+### ⚠ BREAKING CHANGES
+
+* update packages
+
+### ⬆️ Dependency Updates
+
+* update packages ([154e4d4](https://github.com/Paratco/rhf-mui-form/commit/154e4d429fea41a649c6d77f06868bfc2efabc95))
+
 ## [1.3.3](https://github.com/Paratco/rhf-mui-form/compare/1.3.2...1.3.3) (2025-10-06)
 
 ### 🐛 Bug Fixes
