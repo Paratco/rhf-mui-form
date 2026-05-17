@@ -3,27 +3,7 @@ import { Controller, useFormContext } from "react-hook-form";
 import type { SliderProps } from "@mui/material";
 import { FormControl, FormHelperText, FormLabel, Slider } from "@mui/material";
 import type { ReactElement, ReactNode } from "react";
-
-function getHelperText(
-  disabled: boolean | undefined,
-  error: string | undefined,
-  helperText: ReactNode | undefined,
-  hasEmptyHelper: boolean | undefined
-): ReactNode | string | undefined {
-  if (disabled === true) {
-    return hasEmptyHelper === true ? " " : undefined;
-  }
-
-  if (error !== undefined && error.length > 0) {
-    return error;
-  }
-
-  if (helperText !== undefined) {
-    return helperText;
-  }
-
-  return hasEmptyHelper === true ? " " : undefined;
-}
+import { getHelperText } from "../utils";
 
 type Props<T extends FieldValues> = Omit<SliderProps, "name"> & {
   readonly name: Path<T>;
