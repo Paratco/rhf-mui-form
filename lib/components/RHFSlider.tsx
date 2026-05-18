@@ -12,6 +12,7 @@ type Props<T extends FieldValues> = Omit<SliderProps, "name"> & {
   readonly helperText?: ReactNode;
   readonly hasEmptyHelper?: boolean;
   readonly sliderDir?: "ltr" | "rtl";
+  readonly disabled?: boolean;
 };
 
 export function RHFSlider<T extends FieldValues>({
@@ -41,19 +42,19 @@ export function RHFSlider<T extends FieldValues>({
           {label !== undefined ? <FormLabel>{label}</FormLabel> : null}
           <Slider
             {...props}
-            value={value ?? props.min ?? 0}
-            onChange={(event, newValue, activeThumb) => {
-              onChange(newValue);
+            value={value ?? (props.defaultValue) ?? 0}
+            onChange={(...p) => {
+              onChange(...p);
 
               if (props.onChange !== undefined) {
-                props.onChange(event, newValue, activeThumb);
+                props.onChange(...p);
               }
             }}
-            onBlur={(event) => {
+            onBlur={(...p) => {
               onBlur();
 
               if (props.onBlur !== undefined) {
-                props.onBlur(event);
+                props.onBlur(...p);
               }
             }}
             {...field}
