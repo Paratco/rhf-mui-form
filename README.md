@@ -205,6 +205,66 @@ pnpm add @paratco/rhf-mui-form
 
 --------------------------------
 
+  ### `RHFSlider`
+
+  `RHFSlider` is a wrapper around MUI's `Slider` component that integrates with React Hook Form.
+
+  - Supports both single value and range (two thumbs) sliders based on the type of the form field value (`number` for single, `number[]` for range).
+  - Supports RTL/LTR direction override via `sliderDir`.
+
+  ```tsx
+  // Single value — one thumb
+  const { control } = useForm({ defaultValues: { similarity: 50 } });
+
+  <RHFSlider
+    name="similarity"
+    label="Similarity"
+    control={control}
+    min={0}
+    max={100}
+    step={1}
+    sliderDir="ltr"
+  />
+  ```
+
+  ```tsx
+  // Range — two thumbs, because defaultValue is number[]
+  const { control } = useForm({ defaultValues: { priceRange: [200, 800] } });
+
+  <RHFSlider
+    name="priceRange"
+    label="Price Range"
+    control={control}
+    min={0}
+    max={1000}
+    sliderDir="ltr"
+  />
+  ```
+
+  > **The component itself is identical in both cases. Two thumbs vs one thumb is purely determined by the default value type — `number` → one thumb, `number[]` → two thumbs.**
+
+  Types:
+
+  ```ts
+  // Single value
+  const { control } = useForm({ defaultValues: { similarity: 50 } });
+
+  // Range
+  const { control } = useForm({ defaultValues: { priceRange: [200, 800] } });
+  ```
+
+  | Prop            | Type                    | Default  | Definition                                                                                              |
+  | --------------- | ----------------------- | -------- | ------------------------------------------------------------------------------------------------------- |
+  | name\*          | `Path<T>`               |          | The name of the input                                                                                   |
+  | control         | `Control`               |          | The control object from React Hook Form, optional if useFormContext is used                             |
+  | label           | `ReactNode`             |          | Optional label displayed above the slider                                                               |
+  | sliderDir       | (`ltr` or `rtl`)        |          | Overrides the slider direction
+  | helperText      | `ReactNode`             |          | Helper text displayed below the slider                                                                  |
+  | hasEmptyHelper  | boolean                 | `true`   | Whether to reserve space for the helper text even when empty, preventing layout shifts                  |
+  | props           | `SliderProps`           |          | Additional props passed to the underlying MUI `Slider` (e.g. `min`, `max`, `step`, `marks`, `valueLabelDisplay`) |
+
+--------------------------------
+
   ### `RHFSelectPro`
 
   `RHFSelectPro` is a wrapper around MIUI's `Select` component that integrates with React Hook Form.
