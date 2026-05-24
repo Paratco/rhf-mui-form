@@ -18,6 +18,8 @@ export { RHFTextField } from "./components/RHFTextField";
 
 export { RHFTextMasked } from "./components/RHFTextMasked";
 
+export { RHFPasswordField } from "./components/RHFPasswordField";
+
 export { RHFDateFieldJalali } from "./components/RHFDateFieldJalali";
 
 export { RHFDateTimeFieldJalali } from "./components/RHFDateTimeFieldJalali";

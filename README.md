@@ -71,6 +71,32 @@ pnpm add @paratco/rhf-mui-form
   | props          | TextFieldProps    |            | Additional props passed to the underlying MUI `TextField`                                               |
   --------------------------------
 
+  ### `RHFPasswordField`
+
+  `RHFPasswordField` is a masked password input integrated with React Hook Form. It renders a text field with a show/hide password toggle button using an eye icon.
+
+  - Built on top of `RHFTextMasked`, so it supports input masking via `react-imask`.
+  - Input direction is always `ltr` (suitable for passwords).
+  - The toggle button shows/hides the password without affecting form state.
+
+  ```tsx
+  <RHFPasswordField
+    name="password"
+    label="Password"
+    control={control} // Optional, if useFormContext is not used
+    maskOptions={{ mask: /^\S*$/ }} // no spaces
+  />
+  ```
+
+  | Prop           | Type              | Default | Definition                                                                                |
+  | -------------- | ----------------- | ------- | ----------------------------------------------------------------------------------------- |
+  | name\*         | `Path<T>`         |         | The name of the input                                                                     |
+  | label\*        | `ReactNode`       |         | The label displayed on the input                                                          |
+  | maskOptions\*  | `ReactMaskOpts`   |         | The options for input masking, as defined by `react-imask`                                |
+  | control        | `Control`         |         | The control object from React Hook Form, optional if useFormContext is used               |
+
+  --------------------------------
+
   ### `RHFAutoComplete`
 
   `RHFAutoComplete` is a reusable autocomplete component integrated with React Hook Form.
