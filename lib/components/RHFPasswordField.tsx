@@ -1,4 +1,4 @@
-import { Box, IconButton, InputAdornment, Stack } from "@mui/material";
+import { Box, IconButton, InputAdornment } from "@mui/material";
 import { useState } from "react";
 import type { ReactElement, ReactNode, MouseEvent } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
@@ -58,20 +58,18 @@ export default function RHFPasswordField<T extends FieldValues>({
   );
 
   return (
-    <Stack sx={{ position: "relative" }}>
-      <RHFTextMasked<T>
-        name={name}
-        control={control}
-        inputDir="ltr"
-        label={label}
-        type={showPassword ? "text" : "password"}
-        maskOptions={maskOptions}
-        slotProps={{
-          input: {
-            endAdornment: adornment
-          }
-        }}
-      />
-    </Stack>
+    <RHFTextMasked<T>
+      name={name}
+      control={control}
+      inputDir="ltr"
+      label={label}
+      type={showPassword ? "text" : "password"}
+      maskOptions={maskOptions}
+      slotProps={{
+        input: {
+          endAdornment: adornment
+        }
+      }}
+    />
   );
 }
