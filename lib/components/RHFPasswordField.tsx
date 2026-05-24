@@ -20,7 +20,7 @@ const handleMouseDownPassword = (event: MouseEvent<HTMLButtonElement>): void => 
   event.preventDefault();
 };
 
-export default function RHFPasswordField<T extends FieldValues>({
+export function RHFPasswordField<T extends FieldValues>({
   name,
   control,
   label,
