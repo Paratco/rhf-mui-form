@@ -26,10 +26,10 @@ export function RHFPasswordField<T extends FieldValues>({
   label,
   maskOptions
 }: Props<T>): ReactElement {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [isShowPassword, setIsShowPassword] = useState<boolean>(false);
 
   const handleClickShowPassword = (): void => {
-    setShowPassword((prev) => !prev);
+    setIsShowPassword((prev) => !prev);
   };
 
   const adornment = (
@@ -40,7 +40,7 @@ export function RHFPasswordField<T extends FieldValues>({
         onMouseDown={handleMouseDownPassword}
         onMouseUp={handleMouseUpPassword}
       >
-        {showPassword
+        {isShowPassword
           ? (
             <Box
               component="img"
@@ -63,7 +63,7 @@ export function RHFPasswordField<T extends FieldValues>({
       control={control}
       inputDir="ltr"
       label={label}
-      type={showPassword ? "text" : "password"}
+      type={isShowPassword ? "text" : "password"}
       maskOptions={maskOptions}
       slotProps={{
         input: {
