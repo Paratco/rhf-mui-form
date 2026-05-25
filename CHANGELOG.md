@@ -1,3 +1,14 @@
+## [2.1.0](https://github.com/Paratco/rhf-mui-form/compare/2.0.1...2.1.0) (2026-05-25)
+
+### 🚀 Features
+
+* added rfh password ([83d3db4](https://github.com/Paratco/rhf-mui-form/commit/83d3db4d8848eecdf968abd0f849538e20d44632))
+* **client:** added rhf slider ([557dbd1](https://github.com/Paratco/rhf-mui-form/commit/557dbd1dd07aeefa5df97fb835ed84d873b7669a))
+
+### 🐛 Bug Fixes
+
+* fixed color of icon ([0b4e423](https://github.com/Paratco/rhf-mui-form/commit/0b4e423e0a426a1ac3c92d7104bad110fb6d53c3))
+
 ## [2.0.1](https://github.com/Paratco/rhf-mui-form/compare/2.0.0...2.0.1) (2026-05-16)
 
 ### 🐛 Bug Fixes
