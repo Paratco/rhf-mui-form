@@ -1,9 +1,11 @@
-import { Box, IconButton, InputAdornment } from "@mui/material";
+import { IconButton, InputAdornment } from "@mui/material";
 import { useState } from "react";
 import type { ReactElement, ReactNode, MouseEvent } from "react";
 import type { Control, FieldValues, Path } from "react-hook-form";
 import type { ReactMaskOpts } from "react-imask";
 import { RHFTextMasked } from "./RHFTextMasked";
+import { EyeIcon } from "./partials/EyeIcon";
+import { EyeSlashIcon } from "./partials/EyeSlashIcon";
 
 interface Props<T extends FieldValues> {
   readonly name: Path<T>;
@@ -40,19 +42,7 @@ export function RHFPasswordField<T extends FieldValues>({
         onMouseDown={handleMouseDownPassword}
         onMouseUp={handleMouseUpPassword}
       >
-        {isShowPassword
-          ? (
-            <Box
-              component="img"
-              src={new URL("../assets/icons/eye-slash.svg", import.meta.url).href}
-            />
-          )
-          : (
-            <Box
-              component="img"
-              src={new URL("../assets/icons/eye.svg", import.meta.url).href}
-            />
-          )}
+        {isShowPassword ? <EyeSlashIcon /> : <EyeIcon />}
       </IconButton>
     </InputAdornment>
   );
