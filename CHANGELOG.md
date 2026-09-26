@@ -1,3 +1,9 @@
+## [2.1.1](https://github.com/Paratco/rhf-mui-form/compare/2.1.0...2.1.1) (2026-09-26)
+
+### 🐛 Bug Fixes
+
+* **release:** also publish to GitHub Packages ([e19551f](https://github.com/Paratco/rhf-mui-form/commit/e19551fad8c3f5a00c82e60b0f952782b93789f6))
+
 ## [2.1.0](https://github.com/Paratco/rhf-mui-form/compare/2.0.1...2.1.0) (2026-05-25)
 
 ### 🚀 Features
